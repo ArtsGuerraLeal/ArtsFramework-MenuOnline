@@ -44,12 +44,18 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @Route("/edit", name="menu_edit")
+     * @Route("/{id}/edit", name="menu_edit")
+     * @param MenuRepository $menuRepository
+     * @param $id
+     * @return Response
      */
-    public function edit(): Response
+    public function edit(MenuRepository $menuRepository,$id): Response
     {
+        $menu = $menuRepository->findOneBy(['id'=>$id]);
+
+
         return $this->render('menu/edit.html.twig', [
-            'controller_name' => 'MenuController',
+            'menu_data' => $menu,
         ]);
     }
 
@@ -62,6 +68,21 @@ class MenuController extends AbstractController
     public function view(MenuRepository $menuRepository,$id): Response
     {
         $menu = $menuRepository->findOneBy(['id'=>$id]);
+
+        return $this->render('menu/view.html.twig', [
+            'menu_data' => $menu,
+        ]);
+    }
+
+    /**
+     * @Route("/{name}", name="menu_vie_name", methods={"GET"})
+     * @param MenuRepository $menuRepository
+     * @param $name
+     * @return Response
+     */
+    public function ViewName(MenuRepository $menuRepository,$name): Response
+    {
+        $menu = $menuRepository->findOneBy(['name'=>$name]);
 
         return $this->render('menu/view.html.twig', [
             'menu_data' => $menu,

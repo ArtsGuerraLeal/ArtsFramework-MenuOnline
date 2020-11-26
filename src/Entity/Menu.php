@@ -38,9 +38,14 @@ class Menu
     private $telephone;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $greeting;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
 
 
 
@@ -105,6 +110,18 @@ class Menu
     public function setGreeting(?string $greeting): self
     {
         $this->greeting = $greeting;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

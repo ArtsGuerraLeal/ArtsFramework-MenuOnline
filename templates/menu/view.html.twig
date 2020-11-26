@@ -32,7 +32,7 @@
     <div class="card-body">
         <div id="card-area">
 
-            <img class="img-fluid rounded my-3 border"  src="{{ asset('/images/menu.png') }}" />
+            <img class="img-fluid rounded my-3 border"  src="{{ asset('/images/'~ menu_data.image) }}" />
         </div>
         <div class = "row justify-content-center">
             <div class="col-auto text-center">
@@ -70,14 +70,13 @@
 <script>
 
     function call(){
-        window.open("tel:+528111774732");
-
+       window.open("tel:+"+{{ menu_data.telephone }});
     }
 
     function payment() {
 
         var row_count = $('#cart tr').length;
-        var uri = 'Hola, quisiera hacer un pedido:\n';
+        var uri ='{{ menu_data.greeting }}\n';
 
 
 
