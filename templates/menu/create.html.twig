@@ -1,0 +1,209 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MenuController!{% endblock %}
+
+
+{% block body %}
+
+    <style>
+        #drag-1, #drag-2 {
+            width: 25%;
+            min-height: 6.5em;
+            margin: 1rem 0 0 1rem;
+            background-color: #29e;
+            color: white;
+            border-radius: 0.75em;
+            padding: 4%;
+            touch-action: none;
+            user-select: none;
+            -webkit-transform: translate(0px, 0px);
+            transform: translate(0px, 0px);
+        }
+
+        .resize-drag {
+            width: 120px;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 1rem;
+            background-color: #29e;
+            color: white;
+            font-size: 20px;
+            font-family: sans-serif;
+
+            touch-action: none;
+
+            /* This makes things *much* easier */
+            box-sizing: border-box;
+        }
+
+
+
+    </style>
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-graph text-success">
+                    </i>
+                </div>
+                <div>Nuevo Producto
+                    <div class="page-title-subheading">Agregar un nuevo producto
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="main-card mb-3 card">
+
+        <div class="card-body">
+
+            <button class="btn btn-primary" onclick="addButton()">+</button>
+
+            <div id="card-area">
+
+                <div id="image-holder">
+                    <img class="img-fluid img-thumbnail rounded my-3" width="170px" height="170px" src="{{ asset('assets/images/product_placeholder.jpg') }}" />
+                </div>
+            </div>
+
+            <input type="file" name="product_attachment" id="product_attachment">
+
+            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+        </div>
+
+    </div>
+
+    <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+
+    <script>
+        function addButton(){
+
+            var newButton = document.createElement("div");
+            var buttonText = document.createTextNode("Text");
+            newButton.appendChild(buttonText);
+            newButton.className = "resize-drag";
+
+            document.getElementById("card-area").prepend(newButton);
+
+        }
+
+    </script>
+    <script type="module">
+        import 'https://cdn.interactjs.io/v1.9.20/auto-start/index.js'
+        import 'https://cdn.interactjs.io/v1.9.20/actions/drag/index.js'
+        import 'https://cdn.interactjs.io/v1.9.20/actions/resize/index.js'
+        import 'https://cdn.interactjs.io/v1.9.20/modifiers/index.js'
+        import 'https://cdn.interactjs.io/v1.9.20/dev-tools/index.js'
+        import interact from 'https://cdn.interactjs.io/v1.9.20/interactjs/index.js'
+
+
+
+        function dragMoveListener (event) {
+            var target = event.target
+            // keep the dragged position in the data-x/data-y attributes
+            var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+            var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+
+            // translate the element
+            target.style.webkitTransform =
+                target.style.transform =
+                    'translate(' + x + 'px, ' + y + 'px)'
+
+            // update the posiion attributes
+            target.setAttribute('data-x', x)
+            target.setAttribute('data-y', y)
+        }
+
+        // this function is used later in the resizing and gesture demos
+        window.dragMoveListener = dragMoveListener
+
+        interact('.resize-drag')
+            .resizable({
+                // resize from all edges and corners
+                edges: { left: true, right: true, bottom: true, top: true },
+
+                listeners: {
+                    move (event) {
+                        var target = event.target
+                        var x = (parseFloat(target.getAttribute('data-x')) || 0)
+                        var y = (parseFloat(target.getAttribute('data-y')) || 0)
+
+                        // update the element's style
+                        target.style.width = event.rect.width + 'px'
+                        target.style.height = event.rect.height + 'px'
+
+                        // translate when resizing from top or left edges
+                        x += event.deltaRect.left
+                        y += event.deltaRect.top
+
+                        target.style.webkitTransform = target.style.transform =
+                            'translate(' + x + 'px,' + y + 'px)'
+
+                        target.setAttribute('data-x', x)
+                        target.setAttribute('data-y', y)
+                        target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height)
+                    }
+                },
+                modifiers: [
+                    // keep the edges inside the parent
+                    interact.modifiers.restrictEdges({
+                        outer: 'parent'
+                    }),
+
+                    // minimum size
+                    interact.modifiers.restrictSize({
+                        min: { width: 100, height: 50 }
+                    })
+                ],
+
+                inertia: false
+            })
+
+            .draggable({
+                listeners: { move: window.dragMoveListener },
+                inertia: false,
+                modifiers: [
+                    interact.modifiers.restrictRect({
+                        restriction: 'parent',
+                        endOnly: true
+                    })
+                ]
+            });
+
+</script>
+
+    <script type="text/javascript">
+
+
+
+
+
+        $("#product_attachment").on('change', function () {
+
+            if (typeof (FileReader) != "undefined") {
+
+                var image_holder = $("#image-holder");
+                image_holder.empty();
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("<img />", {
+                        "src": e.target.result,
+                        "class": "thumb-image",
+
+                    }).appendTo(image_holder);
+
+                };
+                image_holder.show();
+                reader.readAsDataURL($(this)[0].files[0]);
+            } else {
+                alert("This browser does not support FileReader.");
+            }
+        });
+
+    </script>
+{% endblock %}

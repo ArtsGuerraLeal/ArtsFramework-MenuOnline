@@ -1,0 +1,289 @@
+{% extends 'baseNoNav.html.twig' %}
+{% block body %}
+<style>
+
+
+
+    .add_product{
+        margin-top: 1rem;
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+        margin-left: 0rem;
+
+        color: white;
+        font-size: 20px;
+        font-family: sans-serif;
+
+        /* This makes things *much* easier */
+        box-sizing: border-box;
+
+        position: absolute;
+        width: 120px;
+        height: 50px;
+
+    }
+
+
+
+</style>
+
+<div class="main-card mb-3 card">
+
+    <div class="card-body">
+        <div id="card-area">
+
+            <img class="img-fluid rounded my-3 border"  src="{{ asset('/images/menu.png') }}" />
+        </div>
+        <div class = "row justify-content-center">
+            <div class="col-auto text-center">
+
+        <button class="btn btn-secondary border-dark" onclick="call()">Llamar</button>
+        <button class="btn btn-success border-dark" onclick="payment()">Whatsapp</button>
+
+
+                <table id="cart" class="products-cart table table-responsive table-bordered my-2" style="overflow: scroll;height: 200px;display:block;" >
+                    <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <p class="dataText" style="display: none" >{{ menu_data.data }}</p>
+
+    <script src="{{ asset('jquery/jquery-3.5.1.min.js') }}"></script>
+
+<script>
+
+    function call(){
+        window.open("tel:+528111774732");
+
+    }
+
+    function payment() {
+
+        var row_count = $('#cart tr').length;
+        var uri = 'Hola, quisiera hacer un pedido:\n';
+
+
+
+            $('#cart tr').each(function(index, tr) {
+
+                if(index>0) {
+
+
+                        console.log(index);
+                        var row = $(tr).closest('tr');
+                        var quantity = row.find('#quantity').text();
+                        if(index < row_count-1){
+                            uri += tr.id + " x " + quantity + '\n';
+
+
+                        }else{
+
+                            uri += tr.id + " x " + quantity;
+
+                        }
+
+                }
+
+            });
+
+
+        var uriText = encodeURI(uri);
+           // console.log(uri)
+            window.location.href = "https://wa.me/"+{{ menu_data.telephone }} +"?text="+uriText;
+
+    }
+
+    function loadButtons(){
+
+        var elementText = document.getElementsByClassName('dataText');
+        var jsonObj = JSON.parse(elementText);
+
+        for(var i =0; i < getLength(jsonObj,'Button_');i++){
+            var key = "Button_"+ i;
+            var buttonElem = document.createElement('button');
+            var buttonElemText = document.createTextNode(key);
+
+
+            buttonElem.className = "btn btn-outline-secondary add_product";
+
+            buttonElem.id = key;
+
+            buttonElem.appendChild(buttonElemText);
+
+            //  var button = $("<button class='btn btn-outline-secondary mybtn' id="+key+"></button>").text(i);
+            document.getElementById("card-area").prepend(buttonElem);
+
+        }
+
+    }
+
+    $(document).on('click', '.remove_all', function(){
+
+        $(this).parent().parent().remove();
+
+    });
+
+    $(document).on('click', '.remove_product', function(){
+        var quantity = $(this).parent().parent().children()[1].innerText;
+        var prodPrice = parseFloat($(this).parent().parent().children()[2].innerText)/parseFloat(quantity);
+        var prodID = $(this).parent().parent().attr('id');
+
+        var i = $(this).parent().parent().index();
+        var table = $(this).parent().parent().parent();
+
+        if(quantity === "1"){
+            $(this).parent().parent().remove();
+
+        }else{
+            $(this).parent().parent().children()[1].innerText = quantity - 1;
+
+        }
+
+    });
+
+    $(document).on('click', '.add_product', function(){
+        console.log("Hey");
+        var cart = $('.products-cart');
+        var prodName = $(this).attr('data-name');
+        var prodID = $(this).attr('data-id');
+        var prodAmount = 1;
+
+        var cellVal = $(".products-cart tr td").filter(function() {
+            return $(this).text() === prodName;
+        });
+        if(cellVal.text() === ""){
+            if(prodAmount ===1){
+                cart.prepend('<tr id="'+prodName+'"><td >'+prodName+'</td><td id="quantity">1</td><td><div class="remove_product btn btn-danger btn-sm my-1 mx-1">Borrar</div><div class="remove_all btn btn-warning my-1 btn-sm">Borrar Todo</div></td></tr>');
+
+            }else{
+
+                cart.prepend('<tr id="'+prodName+'"><td >'+prodName+'</td><td id="quantity">'+ prodAmount +'</td><td><div class="remove_product btn btn-danger btn-sm my-1 mx-1">Borrar</div><div class="remove_all btn btn-warning my-1 btn-sm">Borrar Todo</div><div class="discount_product btn btn-success my-1 btn-sm" data-toggle="modal" data-target="#discountModal">Descuento</div></td></tr>');
+
+            }
+
+        }else{
+            var quantity = parseInt(cellVal.parent().children()[1].innerText);
+            cellVal.parent().children()[1].innerText = quantity + 1;
+
+        }
+
+
+
+
+    });
+
+    $( window ).on( "orientationchange", function( event ) {
+      //  $( ".mybtn" ).remove();
+
+        location.reload();
+    //   DoStuff();
+        });
+
+        function DoStuff(){
+            console.log("Added")
+
+            var elementText = $('.dataText').text();
+            var jsonObj = jQuery.parseJSON(elementText);
+            var posX = 0;
+            var posY = 0;
+            var buttonWidth = 0;
+            var buttonHeight = 0;
+            var originalHeight = 968;
+            var menuImage = $('#card-area').children('img');
+            var scale = (100-(menuImage[0].clientWidth/originalHeight)*100);
+            console.log(menuImage[0].clientWidth)
+
+            var scaleMult = (1-(scale/100));
+
+            console.log(scale);
+            console.log(scaleMult);
+
+            //console.log(570*(1-(scale/100)));
+
+            for(var i =0; i < getLength(jsonObj,'Button_');i++){
+                var key = "Button_"+ i;
+                var button = $("<button class='btn border-dark btn-outline-success mybtn' id="+key+"></button>");
+                $('#card-area').prepend(button);
+
+                posX = jsonObj[key].xpos;
+                posY = jsonObj[key].ypos;
+                buttonWidth = jsonObj[key].width;
+                buttonHeight = jsonObj[key].height;
+
+                $('#'+key).css({"-webkit-transform":"translate("+posX*scaleMult+"px,"+posY*scaleMult+"px)"});
+                $('#'+key).css({"width":buttonWidth*scaleMult});
+                $('#'+key).css({"height":buttonHeight*scaleMult});
+
+        }
+
+
+    }
+
+
+    $(document).ready(function(data){
+        var elementText = $('.dataText').text();
+        var jsonObj = jQuery.parseJSON(elementText);
+        var posX = 0;
+        var posY = 0;
+        var buttonWidth = 0;
+        var buttonHeight = 0;
+        var originalHeight = 968;
+        var menuImage = $('#card-area').children('img');
+        var scale = (100-(menuImage[0].clientWidth/originalHeight)*100);
+        var scaleMult = (1-(scale/100));
+        console.log(scale);
+        console.log(scaleMult);
+
+        console.log(570*(1-(scale/100)));
+
+        for(var i =0; i < getLength(jsonObj,'Button_');i++){
+        var key = "Button_"+ i;
+        var button = $("<button class='btn border-dark btn-outline-success add_product' id="+key+"></button>");
+        $('#card-area').prepend(button);
+
+             posX = jsonObj[key].xpos;
+             posY = jsonObj[key].ypos;
+             buttonWidth = jsonObj[key].width;
+             buttonHeight = jsonObj[key].height;
+        $('#'+key).css({"-webkit-transform":"translate("+posX*scaleMult+"px,"+posY*scaleMult+"px)"});
+        $('#'+key).css({"width":buttonWidth*scaleMult});
+        $('#'+key).css({"height":buttonHeight*scaleMult});
+        $('#'+key).attr("data-name",jsonObj[key].itemname)
+        $('#'+key).attr("data-id",key)
+
+        }
+
+
+
+    });
+
+    function getLength(json,key){
+    var jsonLength = 0;
+
+    while(json[key+jsonLength]!== undefined){
+        jsonLength++;
+    }
+    return jsonLength;
+    }
+
+</script>
+{% endblock %}
+
+

@@ -1,0 +1,438 @@
+{% extends 'baseNoNav.html.twig' %}
+
+{% block title %}Hello MenuController!{% endblock %}
+
+
+{% block body %}
+
+    <style>
+        #card-area{
+            width: 100%;
+
+        }
+
+        .editButton {
+            position: absolute;
+            top: 3px;
+            right: 0px;
+
+            color: black;
+
+        }
+
+        .buttonInput {
+          opacity: 75%;
+
+        }
+
+        .buttonText {
+            opacity: 75%;
+
+        }
+
+        .editButtonBackground{
+            position: absolute;
+
+            background: white;
+            border-radius: .95em;
+            width: 28px;
+            height:28px;
+            border: 1px solid black;
+            top: -10px;
+            right: -5px;
+        }
+
+
+        #drag-1, #drag-2 {
+            width: 25%;
+            min-height: 6.5em;
+            margin: 1rem 0 0 1rem;
+            background-color: #29e;
+            color: white;
+            border-radius: 0.75em;
+            padding: 4%;
+            touch-action: none;
+            user-select: none;
+            -webkit-transform: translate(0px, 0px);
+            transform: translate(0px, 0px);
+        }
+
+        .resize-drag {
+            border: 1px solid black;
+            width: 120px;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 1rem;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+            margin-left: 0rem;
+            background: rgba(51, 153, 255,0.5);
+            color: white;
+            font-size: 20px;
+            font-family: sans-serif;
+
+            touch-action: none;
+
+            /* This makes things *much* easier */
+            box-sizing: border-box;
+            position: absolute;
+        }
+
+
+
+    </style>
+    <button class="btn btn-primary" onclick="addButton()">Add Button</button>
+    <button class="btn btn-primary" onclick="addMultiButton2()">Add Multi Button</button>
+    <button class="btn btn-primary saveButton" >Save</button>
+    <button class="btn btn-primary previewButton" >Preview</button>
+
+    <div class="main-card mb-3 card">
+
+        <div class="card-body">
+
+
+                        <div id="card-area">
+                        <img class="rounded my-3 border"   src="{{ asset('/images/menu.png') }}" />
+
+                    </div>
+
+        </div>
+
+    </div>
+
+    <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+
+
+    <script>
+        $(document).on('click', '.saveButton', function(){
+        var jsonData = '{';
+            var i = 0;
+
+            $('.menuButton').each(function(){
+
+                jsonData += '"Button_'+i+'":{';
+                if(i< $('.menuButton').length-1){
+                    if($(this).children("input").val() === ""){
+                        jsonData += '"itemname":' + '""'+',';
+
+                    }else{
+                        jsonData += '"itemname":"' + $(this).children("input").val()+'",';
+
+                    }
+
+                    if($(this).attr('data-x') === undefined){
+                        jsonData += '"xpos":' + 0 + ',';
+
+                    }else{
+                        jsonData += '"xpos":' + $(this).attr('data-x') + ',';
+                    }
+                    if($(this).attr('data-y') === undefined){
+                        jsonData += '"ypos":' + 0 + ',';
+
+                    }else{
+                        jsonData += '"ypos":' + $(this).attr('data-y') + ',';
+                    }
+                    jsonData += '"width":' + $(this).attr('data-width') + ',';
+                    jsonData += '"height":' + $(this).attr('data-height');
+
+
+                    jsonData += '},';
+
+                }else{
+                    //Done with array
+                    if($(this).children("input").val() === ""){
+                        jsonData += '"itemname":' + '""'+',';
+
+                    }else{
+                        jsonData += '"itemname":"' + $(this).children("input").val()+'",';
+
+                    }
+                    if($(this).attr('data-x') === undefined){
+                        jsonData += '"xpos":' + 0 + ',';
+
+                    }else{
+                        jsonData += '"xpos":' + $(this).attr('data-x') + ',';
+                    }
+                    if($(this).attr('data-y') === undefined){
+                        jsonData += '"ypos":' + 0 + ',';
+
+                    }else{
+                        jsonData += '"ypos":' + $(this).attr('data-y') + ',';
+                    }
+                    jsonData += '"width":' + $(this).attr('data-width') + ',';
+                    jsonData += '"height":' + $(this).attr('data-height');
+                    jsonData += '}';
+                }
+                i = i + 1;
+            });
+
+
+
+            jsonData += '}';
+
+            console.log(jsonData);
+
+
+            $.ajax({
+                url:"{{ path('save_menu') }}",
+                type: "POST",
+                data:{
+                    menuData:jsonData
+                },
+                success:function (php_result) {
+                    var result = php_result.toString();
+                    console.log(php_result);
+                    console.log(result);
+
+
+                }
+
+            });
+
+        });
+
+        $(document).on('click', '.editButton', function(){
+            var buttonInput = $(this).parent().parent().children("input");
+            if(buttonInput.attr('type') === "hidden"){
+                $(this).parent().parent().children("p").text('')
+                buttonInput.attr('type', 'text');
+            }else{
+                var buttonName =  buttonInput.val();
+                $(this).parent().parent().children("p").text(buttonName);
+                buttonInput.attr('type', 'hidden');
+
+            }
+        });
+
+        $(document).on('click', '.multibutton', function(){
+            $("#card-area").prepend('<div class="dropdown resize-drag">\n' +
+                '                <button class="btn btn-secondary dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n' +
+                '                    Dropdown button\n' +
+                '                </button>\n' +
+                '                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
+                '                    <a class="dropdown-item" href="#">Action</a>\n' +
+                '                    <a class="dropdown-item" href="#">Anotherdsada action</a>\n' +
+                '                    <a class="dropdown-item" href="#">Somethingdsadasd else here</a>\n' +
+                '                </div>\n' +
+                '            </div>');
+
+        });
+
+
+    </script>
+    <script>
+        function addMultiButton3(){
+
+            document.getElementById("card-area").append('<div class="dropdown">\n' +
+                '                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n' +
+                '                    Dropdown button\n' +
+                '                </button>\n' +
+                '                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">\n' +
+                '                    <a class="dropdown-item" href="#">Action</a>\n' +
+                '                    <a class="dropdown-item" href="#">Anotherdsada action</a>\n' +
+                '                    <a class="dropdown-item" href="#">Somethingdsadasd else here</a>\n' +
+                '                </div>\n' +
+                '            </div>');
+
+
+        }
+        function addMultiButton2(){
+            var baseDiv = document.createElement("div");
+            baseDiv.className = "dropdown resize-drag";
+            var buttonText = document.createTextNode("Text");
+
+            var newButton = document.createElement("button");
+            newButton.appendChild(buttonText);
+
+            newButton.className = "btn btn-secondary dropdown-toggle";
+            newButton.id = "dropdownMenuButton";
+            newButton.type = "button";
+            newButton.setAttribute("data-toggle","dropdown");
+            newButton.setAttribute("aria-haspopup","true");
+            newButton.setAttribute("aria-expanded","false");
+
+            var newButtonMenu = document.createElement("div");
+            newButtonMenu.className = "dropdown-menu";
+            newButtonMenu.setAttribute("aria-labelledby","dropdownMenuButton");
+
+            var newButtonAction = document.createElement("a");
+            newButtonAction.className = "dropdown-item";
+      //      var actionText = document.createTextNode("Text");
+        //    actionText.textContent = "1";
+          //  newButtonAction.appendChild(actionText);
+            newButtonAction.text = "Action 1";
+            newButtonAction.href = "#";
+
+            baseDiv.appendChild(newButton);
+            baseDiv.appendChild(newButtonMenu);
+
+            newButtonMenu.appendChild(newButtonAction);
+
+            document.getElementById("card-area").prepend(baseDiv);
+
+        }
+
+        function addMultiButton(){
+
+
+            var newButton = document.createElement("div");
+            var buttonText = document.createTextNode("Text");
+
+            newButton.appendChild(buttonText);
+            newButton.className = "resize-drag dropdown-toggle btn btn-outline-primary";
+
+            var editButton = document.createElement("div");
+            editButton.className = "metismenu-icon fas fa-fw fa-pen editButton";
+
+            newButton.appendChild(editButton);
+
+            document.getElementById("card-area").prepend(newButton);
+        }
+
+        function addButton(){
+
+            var newButton = document.createElement("div");
+            var buttonText = document.createElement("p");
+            buttonText.className = "font-weight-bold text-dark text-center align-middle bg-white rounded";
+            buttonText.textContent = "";
+            newButton.appendChild(buttonText);
+            newButton.className = "resize-drag menuButton";
+
+            var editButton = document.createElement("div");
+            editButton.className = "metismenu-icon fas fa-fw fa-pen editButton";
+
+            var editButtonBackground = document.createElement("div");
+            editButtonBackground.className = "editButtonBackground";
+
+            editButtonBackground.appendChild(editButton);
+
+
+            var textBox = document.createElement("input");
+            textBox.type = "text";
+            textBox.className = "form-control buttonInput";
+            newButton.appendChild(textBox);
+
+
+
+            newButton.appendChild(editButtonBackground);
+
+            document.getElementById("card-area").prepend(newButton);
+
+        }
+
+    </script>
+    <script type="module">
+        import 'https://cdn.interactjs.io/v1.9.20/auto-start/index.js'
+        import 'https://cdn.interactjs.io/v1.9.20/actions/drag/index.js'
+        import 'https://cdn.interactjs.io/v1.9.20/actions/resize/index.js'
+        import 'https://cdn.interactjs.io/v1.9.20/modifiers/index.js'
+        import 'https://cdn.interactjs.io/v1.9.20/dev-tools/index.js'
+        import interact from 'https://cdn.interactjs.io/v1.9.20/interactjs/index.js'
+
+        function dragMoveListener (event) {
+            var target = event.target
+            // keep the dragged position in the data-x/data-y attributes
+            var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+            var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+
+            // translate the element
+            target.style.webkitTransform =
+                target.style.transform =
+                    'translate(' + x + 'px, ' + y + 'px)'
+
+            // update the posiion attributes
+            target.setAttribute('data-x', x)
+            target.setAttribute('data-y', y)
+        }
+
+        // this function is used later in the resizing and gesture demos
+        window.dragMoveListener = dragMoveListener
+
+        interact('.resize-drag')
+            .resizable({
+                // resize from all edges and corners
+                edges: { left: true, right: true, bottom: true, top: false },
+
+                listeners: {
+                    move (event) {
+                        var target = event.target
+                        var x = (parseFloat(target.getAttribute('data-x')) || 0)
+                        var y = (parseFloat(target.getAttribute('data-y')) || 0)
+
+                        // update the element's style
+                        target.style.width = event.rect.width + 'px'
+                        target.style.height = event.rect.height + 'px'
+
+                        // translate when resizing from top or left edges
+                        x += event.deltaRect.left
+                        y += event.deltaRect.top
+
+                        target.style.webkitTransform = target.style.transform =
+                            'translate(' + x + 'px,' + y + 'px)'
+
+                        target.setAttribute('data-x', x)
+                        target.setAttribute('data-y', y)
+                        target.setAttribute('data-width', parseInt(target.style.width))
+                        target.setAttribute('data-height', parseInt(target.style.height))
+                    //    target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height)
+                    }
+                },
+                modifiers: [
+                    // keep the edges inside the parent
+                    interact.modifiers.restrictEdges({
+                        outer: 'parent'
+                    }),
+
+                    // minimum size
+                    interact.modifiers.restrictSize({
+                        min: { width: 10, height: 10 }
+                    })
+                ],
+
+                inertia: false
+            })
+
+            .draggable({
+                listeners: { move: window.dragMoveListener },
+                inertia: false,
+                modifiers: [
+                    interact.modifiers.restrictRect({
+                        restriction: 'parent',
+                        endOnly: true
+                    })
+                ]
+            });
+
+</script>
+
+    <script type="text/javascript">
+
+
+
+
+
+        $("#product_attachment").on('change', function () {
+
+            if (typeof (FileReader) != "undefined") {
+
+                var image_holder = $("#image-holder");
+                image_holder.empty();
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("<img />", {
+                        "src": e.target.result,
+                        "class": "thumb-image",
+
+                    }).appendTo(image_holder);
+
+                };
+                image_holder.show();
+                reader.readAsDataURL($(this)[0].files[0]);
+            } else {
+                alert("This browser does not support FileReader.");
+            }
+        });
+
+    </script>
+{% endblock %}

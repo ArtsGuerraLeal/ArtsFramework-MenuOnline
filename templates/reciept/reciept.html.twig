@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+    <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+    <title>{{ sale.id }}</title>
+
+    <style>
+        @media print {
+            .page-break { display: block; page-break-before: always; }
+            @page {
+                margin: 0;
+            }
+        }
+        #invoice-POS {
+            box-shadow: 0 0 0.7in -0.25in rgba(0, 0, 0, 0.5);
+            padding: 2mm;
+            margin: 0 auto;
+            width: 53mm;
+            background: #FFF;
+        }
+        #invoice-POS ::selection {
+            background: #f31544;
+            color: #FFF;
+        }
+        #invoice-POS ::moz-selection {
+            background: #f31544;
+            color: #FFF;
+        }
+        #invoice-POS h1 {
+            font-size: 1.5em;
+            color: #222;
+        }
+        #invoice-POS h2 {
+            font-size: .9em;
+        }
+        #invoice-POS h3 {
+            font-size: 1.2em;
+            font-weight: 300;
+            line-height: 2em;
+        }
+        #invoice-POS .timestamp {
+            color: grey ;
+            float: left;
+        }
+
+        #invoice-POS p {
+            font-size: .7em;
+            color: black;
+            line-height: 1.2em;
+        }
+        #invoice-POS #top, #invoice-POS #mid, #invoice-POS #bot {
+            /* Targets all id with 'col-' */
+            border-bottom: 1px solid #EEE;
+        }
+        #invoice-POS #top {
+            min-height: 100px;
+        }
+        #invoice-POS #mid {
+            min-height: 80px;
+        }
+        #invoice-POS #bot {
+            min-height: 50px;
+        }
+        #invoice-POS #top .logo {
+            height: 80px;
+            width: 80px;
+            background: url(/img/clinimed.png) no-repeat;
+            background-size: 80px 80px;
+        }
+
+
+        #invoice-POS .clientlogo {
+            float: left;
+            height: 60px;
+            width: 60px;
+            background: url(/img/clinimed.png) no-repeat;
+            background-size: 60px 60px;
+            border-radius: 50px;
+        }
+        #invoice-POS .info {
+            display: block;
+            margin-left: 0;
+            text-align:center ;
+        }
+        #invoice-POS .title {
+            float: right;
+        }
+        #invoice-POS .title p {
+            text-align: right;
+            color: black;
+        }
+        #invoice-POS table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        #invoice-POS .tabletitle {
+            font-size: .7em;
+            background-color: #D5D5D5;
+        }
+
+        #invoice-POS .paymentmethod {
+            font-size: .7em;
+            text-align: left;
+
+        }
+
+        #invoice-POS .tabletotal {
+            font-size: .8em;
+        }
+
+
+        #invoice-POS .service {
+            border-bottom: 1px solid #EEE;
+        }
+        #invoice-POS .item {
+            width: 24mm;
+        }
+
+        #invoice-POS .Space {
+            width: 24mm;
+        }
+        #invoice-POS .itemtext {
+            font-size: .7em;
+        }
+
+        #invoice-POS .discounttext {
+            font-size: .6em;
+            line-height: 0em;
+        }
+        #invoice-POS #legalcopy {
+            margin-top: 5mm;
+            text-align:center ;
+
+        }
+
+        .logo-pic {
+            width: 80px;
+            height: 80px;
+        }
+
+
+
+    </style>
+
+    <script>
+        window.console = window.console || function(t) {};
+    </script>
+
+
+
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+
+</head>
+
+<body translate="no" >
+
+
+<div id="invoice-POS">
+
+    <p class="timestamp">{{sale.id}}</p><br>
+    <center id="top">
+        <p class = "timestamp"> Fecha:  {{ sale.time ? sale.time|date('d-m-Y H:i:s') : '' }}</p>
+
+
+
+        {%  if app.user.company.image != null %}
+
+            <img class="rounded-circle logo-pic bg-light " src="{{ '/uploads/' ~ app.user.company.image }}" />
+            <div class="info">
+                <h2>{{  app.user.company.name }} Valle</h2>
+            </div>
+        {% else %}
+            <img class="rounded-circle logo-pic bg-light " src="" />
+            <div class="info">
+                <h2>{{  app.user.company.name }}</h2>
+            </div>
+        {% endif %}
+        <!--End Info-->
+    </center><!--End InvoiceTop-->
+
+    <div id="mid">
+        <div class="info">
+
+            <p><strong>
+                Av. Fundadores 955
+                </br>
+                Paseo de Las Privanzas
+                </br>
+                64750, Monterrey N.L.</br></br>
+                clinimedvalle@gmail.com</br>
+                    Tel: 818-486-0458</br>
+                    Citas: 812-107-4142</br>
+                </strong>
+            </p>
+        </div>
+    </div><!--End Invoice Mid-->
+
+    <div id="bot">
+        <p>Cliente: {{ sale.client }}</p>
+
+        <div id="table">
+            <table>
+                <tr class="tabletitle">
+                    <td class="item"><h2>Producto</h2></td>
+                    <td class="Hours"><h2>Cant.</h2></td>
+                    <td class="Rate"><h2>Subtotal</h2></td>
+                </tr>
+
+                {% for product in products %}
+                    <tr class="service">
+                        <td class="tableitem"><p class="itemtext">{{ product.product.name }}</p>
+                            {% if product.discount is not null %}
+
+                                {% for discount in discounts %}
+                                    {% if product.id == discount.productSold.id %}
+                                    <p class="discounttext">{{ discount.name}} $-{{ discount.amount }}</p>
+                                    {% endif %}
+                                {% endfor %}
+
+                            {% endif %}
+
+                        </td>
+                        <td class="tableitem"><p class="itemtext">{{ product.amount }}</p></td>
+
+                        {% if product.product.price is null %}
+                            {% if product.discount is not null %}
+                                <td class="tableitem"><p class="itemtext">${{ (product.amount * product.price) }}</p></td>
+                                {% else %}
+                                    <td class="tableitem"><p class="itemtext">${{ product.amount * product.price }}</p></td>
+
+                            {% endif %}
+
+                        {% else %}
+                            {% if product.discount is not null %}
+                                <td class="tableitem"><p class="itemtext">${{ (product.amount * product.product.price) -product.discount}}</p></td>
+                            {% else %}
+                                <td class="tableitem"><p class="itemtext">${{ product.amount * product.product.price }}</p></td>
+
+                            {% endif %}
+
+
+                        {% endif %}
+
+                    </tr>
+                {% endfor %}
+
+                <tr class="tabletotal">
+                    <td class="Space"></td>
+                    <td class="Rate"><h2>Subtotal</h2></td>
+                    <td class="payment"><h2>${{ sale.subtotal }}</h2></td>
+                </tr>
+
+                <tr class="tabletotal">
+                    <td class="Space"></td>
+                    <td class="Rate"><h2>IVA</h2></td>
+                    <td class="payment"><h2>${{ sale.tax }}</h2></td>
+                </tr>
+
+                {% if sale.commission > 0 %}
+                <tr class="tabletotal">
+                    <td class="Space"></td>
+                    <td class="Rate"><h2>Commision</h2></td>
+                    <td class="payment"><h2>${{ sale.commission }}</h2></td>
+                </tr>
+
+                    <tr class="tabletotal">
+                        <td class="Space"></td>
+                        <td class="Rate"><h2>Total</h2></td>
+                        <td class="payment"><h2>${{ sale.total + sale.commission }}</h2></td>
+                    </tr>
+
+                    {% else %}
+                        <tr class="tabletotal">
+                            <td class="Space"></td>
+                            <td class="Rate"><h2>Total</h2></td>
+                            <td class="payment"><h2>${{ sale.total}}</h2></td>
+                        </tr>
+                {% endif %}
+
+
+
+
+
+
+            </table>
+        </div><!--End Table-->
+
+
+            <div id="bot" class="info">
+                  <h2 class="service"> Metodos de Pago</h2>
+                {% for payment in payments %}
+                        <h2  class="paymentmethod">{{ payment.type.name }}  ${{ payment.amount }}</h2>
+                {% endfor %}
+            </div>
+
+
+        <div id="legalcopy">
+            <p class="legal "><strong>Exelencia y Calidad en Medicina Estetica</strong>
+            </p>
+        </div>
+
+    </div><!--End InvoiceBot-->
+</div><!--End Invoice-->
+
+
+
+
+
+
+</body>
+
+</html>
