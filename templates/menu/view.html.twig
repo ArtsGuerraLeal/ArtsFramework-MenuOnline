@@ -40,7 +40,7 @@
         <button class="btn btn-secondary border-dark" onclick="call()">Llamar</button>
         <button class="btn btn-success border-dark" onclick="payment()">Whatsapp</button>
 
-
+        {% if menu_data.data is not null %}
                 <table id="cart" class="products-cart table table-responsive table-bordered my-2" style="overflow: scroll;height: 200px;display:block;" >
                     <thead>
                     <tr>
@@ -56,7 +56,7 @@
 
                     </tbody>
                 </table>
-
+        {% endif %}
             </div>
         </div>
     </div>
