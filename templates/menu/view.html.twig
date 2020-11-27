@@ -2,22 +2,15 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Language" content="en">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
     <title>{% block title %} {{ menu_data.title }} {% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
-    <meta name="description" content="{{ menu_data.description }}">
     <meta property="og:title" content="{{ menu_data.title }} " />
     <meta property="og:url" content="{{ "https://www.fastmarket.com.mx/menu/" ~ menu_data.name  }}" />
     <meta property="og:description" content="{{ menu_data.description }}">
     <meta property="og:image" content="{{ "https://fastmarket.com.mx/images/"~ menu_data.preview }}">
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_US" />
-
-    <meta name="msapplication-tap-highlight" content="no">
-
+    <meta property="og:type" content="article" />
+    <meta property="og:locale" content="en_US" />
 
     {% block stylesheets %}
         <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -123,7 +116,7 @@
 </div>
 </body>
 {% block javascripts %}
-    <script src="{{ asset('js/sb-admin.min.js') }}"></script>
+
 
     <script src="{{ asset('jquery/jquery-3.5.1.min.js') }}"></script>
 
