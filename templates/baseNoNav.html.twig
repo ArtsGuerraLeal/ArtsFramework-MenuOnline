@@ -16,24 +16,17 @@
     {% block stylesheets %}
         <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
         <!-- Page level plugin CSS-->
-        <link href="{{ asset('datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
         <!-- Custom styles for this template-->
-        <link href="{{ asset('css/sb-admin.css') }}" rel="stylesheet">
 
-
-
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.css">
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
     {% endblock %}
 
 </head>
 
-<body>
+<body class=" bg-secondary">
 
-    <div class="app-main bg-info">
+    <div class="app-main bg-secondary">
 
             <div class="app-main__outer">
 
@@ -50,82 +43,9 @@
         </div>
 </body>
 {% block javascripts %}
-<!-- Bootstrap core JavaScript-->
-    <!-- <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>-->
 
-<!-- Core plugin JavaScript-->
 <script src="{{ asset('jquery-easing/jquery.easing.min.js') }}"></script>
-<!-- Page level plugin JavaScript-->
 
-
-<!-- Custom scripts for all pages-->
 <script src="{{ asset('js/sb-admin.min.js') }}"></script>
-<script src="{{ asset('js/collection.js') }}"></script>
-
-
-<!-- Page level plugin JavaScript-->
-<script src="{{ asset('chart.js/Chart.min.js') }}"></script>
-<script src="{{ asset('datatables/jquery.dataTables.js') }}"></script>
-<script src="{{ asset('datatables/dataTables.bootstrap4.js') }}"></script>
-
-<!-- Custom scripts for all pages-->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment-with-locales.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/main.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.js"></script>
-<script type="text/javascript" src="{{ asset('assets/scripts/main.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
-
-<!-- Core plugin JavaScript-->
-
-<!-- Page level plugin JavaScript-->
-<script src="{{ asset('js/openTab.js') }}"></script>
-
-<!-- Custom scripts for all pages-->
-
-<script type="text/javascript">
-
-
-
-
-
-
-
-    $(document).ready(function() {
-        $('#dataTable').DataTable();
-    } );
-
-    document.addEventListener('DOMContentLoaded', () => {
-        var calendarEl = document.getElementById('calendar-holder');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            defaultView: 'dayGridMonth',
-            editable: true,
-            eventSources: [
-                {
-                    url: "{{ path('fc_load_events') }}",
-                    method: "POST",
-                    extraParams: {
-                        filters: JSON.stringify({})
-                    },
-                    failure: () => {
-                        // alert("There was an error while fetching FullCalendar!");
-                    },
-                },
-            ],
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay',
-            },
-            plugins: [ 'interaction', 'dayGrid', 'timeGrid' ], // https://fullcalendar.io/docs/plugin-index
-            timeZone: 'UTC',
-        });
-        calendar.render();
-    });
-</script>
 {% endblock %}
 </html>

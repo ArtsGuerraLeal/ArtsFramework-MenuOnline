@@ -10560,14 +10560,8 @@ a.text-dark:hover, a.text-dark:focus {
   }
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
 
-body {
-  height: 100%;
-}
+
 
 #wrapper {
   display: -webkit-box;
