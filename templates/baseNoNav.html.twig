@@ -31,10 +31,73 @@
             <div class="app-main__outer">
 
                     <div class="app-main__inner">
-                        {% block body %}
+                            <style>
+
+                                    html, body {
+                                            overflow-x: hidden;
+                                    }
+                                    body {
+                                            overflow: hidden;
+                                            position: relative;
+                                            margin: 0;
+                                            padding: 0;
+                                    }
+
+                                    .add_product{
+                                            margin-top: 1rem;
+                                            margin-right: 1rem;
+                                            margin-bottom: 1rem;
+                                            margin-left: 0rem;
+                                            color: white;
+                                            font-size: 20px;
+                                            font-family: sans-serif;
+                                            /* This makes things *much* easier */
+                                            box-sizing: border-box;
+                                            position: absolute;
+                                            width: 120px;
+                                            height: 50px;
+                                    }
+                            </style>
+
+                            <div class="main-card mb-3 card">
+
+                                    <div class="card-body">
+                                            <div id="card-area">
+
+                                                    <img class="img-fluid rounded my-3 border"  src="{{ asset('/images/'~ menu_data.image) }}" />
+                                            </div>
+                                            <div class = "row justify-content-center">
+                                                    <div class="col-auto text-center">
+                                                            {% if menu_data.notes is not null %}
+                                                                    <p>{{ menu_data.notes }}</p>
+                                                            {% endif %}
+                                                            <button class="btn btn-secondary border-dark" onclick="call()">Llamar</button>
+                                                            <button class="btn btn-success border-dark" onclick="payment()">Whatsapp</button>
+
+                                                            {% if menu_data.data is not null %}
+                                                                    <table id="cart" class="products-cart table table-responsive table-bordered my-2" style="overflow: scroll;height: 200px;display:block;" >
+                                                                            <thead>
+                                                                            <tr>
+                                                                                    <th>Producto</th>
+                                                                                    <th>Cantidad</th>
+                                                                                    <th></th>
+
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
 
 
-                        {% endblock %}
+
+                                                                            </tbody>
+                                                                    </table>
+                                                            {% endif %}
+                                                    </div>
+                                            </div>
+                                    </div>
+
+                            </div>
+
+                            <p class="dataText" style="display: none" >{{ menu_data.data }}</p>
 
                     </div>
 
@@ -44,7 +107,7 @@
                                             <div class="app-footer-left">
                                                     <ul class="nav">
                                                             <li class="nav-item">
-                                                                    <a class="btn btn-primary border-dark" href="https://wa.me/528111774732?text=Hola%2C+quisiera+publicarme+con+ustedes." role="button">Publicate aqui!</a>
+                                                                    <a class="btn-sm btn-primary border-dark" href="https://wa.me/528111774732?text=Hola%2C+quisiera+publicarme+con+ustedes." role="button">Publicate aqui!</a>
                                                             </li>
                                                     </ul>
                                             </div>

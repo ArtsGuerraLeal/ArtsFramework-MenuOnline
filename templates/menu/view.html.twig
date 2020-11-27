@@ -1,72 +1,129 @@
-{% extends 'baseNoNav.html.twig' %}
-{% block body %}
-    <style>
+<!doctype html>
+<html lang="en">
 
-        html, body {
-            overflow-x: hidden;
-        }
-        body {
-            overflow: hidden;
-            position: relative;
-            margin: 0;
-            padding: 0;
-        }
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{% block title %} {{ menu_data.title }} {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="{{ menu_data.description }}">
+    <meta property="og:title" content="{{ menu_data.title }} " />
+    <meta property="og:url" content="{{ "https://www.fastmarket.com.mx/menu/" ~ menu_data.name  }}" />
+    <meta property="og:description" content="{{ menu_data.description }}">
+    <meta property="og:image" content="{{ "https://fastmarket.com.mx/images/"~ menu_data.preview }}">
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_US" />
 
-        .add_product{
-            margin-top: 1rem;
-            margin-right: 1rem;
-            margin-bottom: 1rem;
-            margin-left: 0rem;
-            color: white;
-            font-size: 20px;
-            font-family: sans-serif;
-            /* This makes things *much* easier */
-            box-sizing: border-box;
-            position: absolute;
-            width: 120px;
-            height: 50px;
-        }
-    </style>
+    <meta name="msapplication-tap-highlight" content="no">
 
-    <div class="main-card mb-3 card">
 
-        <div class="card-body">
-            <div id="card-area">
+    {% block stylesheets %}
+        <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
-                <img class="img-fluid rounded my-3 border"  src="{{ asset('/images/'~ menu_data.image) }}" />
+    {% endblock %}
+
+</head>
+
+<body class=" bg-secondary">
+
+<div class="app-main bg-secondary">
+
+    <div class="app-main__outer">
+
+        <div class="app-main__inner">
+            <style>
+
+                html, body {
+                    overflow-x: hidden;
+                }
+                body {
+                    overflow: hidden;
+                    position: relative;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .add_product{
+                    margin-top: 1rem;
+                    margin-right: 1rem;
+                    margin-bottom: 1rem;
+                    margin-left: 0rem;
+                    color: white;
+                    font-size: 20px;
+                    font-family: sans-serif;
+                    /* This makes things *much* easier */
+                    box-sizing: border-box;
+                    position: absolute;
+                    width: 120px;
+                    height: 50px;
+                }
+            </style>
+
+            <div class="main-card mb-3 card">
+
+                <div class="card-body">
+                    <div id="card-area">
+
+                        <img class="img-fluid rounded my-3 border"  src="{{ asset('/images/'~ menu_data.image) }}" />
+                    </div>
+                    <div class = "row justify-content-center">
+                        <div class="col-auto text-center">
+                            {% if menu_data.notes is not null %}
+                                <p>{{ menu_data.notes }}</p>
+                            {% endif %}
+                            <button class="btn btn-secondary border-dark" onclick="call()">Llamar</button>
+                            <button class="btn btn-success border-dark" onclick="payment()">Whatsapp</button>
+
+                            {% if menu_data.data is not null %}
+                                <table id="cart" class="products-cart table table-responsive table-bordered my-2" style="overflow: scroll;height: 200px;display:block;" >
+                                    <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th></th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+
+
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class = "row justify-content-center">
-                <div class="col-auto text-center">
-                    {% if menu_data.notes is not null %}
-                    <p>{{ menu_data.notes }}</p>
-                    {% endif %}
-                    <button class="btn btn-secondary border-dark" onclick="call()">Llamar</button>
-                    <button class="btn btn-success border-dark" onclick="payment()">Whatsapp</button>
 
-                    {% if menu_data.data is not null %}
-                        <table id="cart" class="products-cart table table-responsive table-bordered my-2" style="overflow: scroll;height: 200px;display:block;" >
-                            <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th></th>
+            <p class="dataText" style="display: none" >{{ menu_data.data }}</p>
 
-                            </tr>
-                            </thead>
-                            <tbody>
+        </div>
 
-
-
-                            </tbody>
-                        </table>
-                    {% endif %}
+        <div class="app-wrapper-footer">
+            <div class="app-footer">
+                <div class="app-footer__inner">
+                    <div class="app-footer-left">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="btn-sm btn-primary border-dark" href="https://wa.me/528111774732?text=Hola%2C+quisiera+publicarme+con+ustedes." role="button">Publicate aqui!</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
-
-    <p class="dataText" style="display: none" >{{ menu_data.data }}</p>
+</div>
+</div>
+</body>
+{% block javascripts %}
+    <script src="{{ asset('js/sb-admin.min.js') }}"></script>
 
     <script src="{{ asset('jquery/jquery-3.5.1.min.js') }}"></script>
 
@@ -214,3 +271,7 @@
         }
     </script>
 {% endblock %}
+</html>
+
+
+
