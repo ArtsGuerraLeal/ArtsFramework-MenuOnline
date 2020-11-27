@@ -47,6 +47,11 @@ class Menu
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="text",nullable=true)
+     */
+    private $notes;
+
 
 
     public function getId(): ?int
@@ -122,6 +127,18 @@ class Menu
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(?string $notes): self
+    {
+        $this->notes = $notes;
 
         return $this;
     }
