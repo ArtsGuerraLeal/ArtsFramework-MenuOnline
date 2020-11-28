@@ -67,6 +67,16 @@ class Menu
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $info;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $numOfImages;
+
 
 
     public function getId(): ?int
@@ -190,6 +200,30 @@ class Menu
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getInfo(): ?string
+    {
+        return $this->info;
+    }
+
+    public function setInfo(?string $info): self
+    {
+        $this->info = $info;
+
+        return $this;
+    }
+
+    public function getNumOfImages(): ?int
+    {
+        return $this->numOfImages;
+    }
+
+    public function setNumOfImages(?int $numOfImages): self
+    {
+        $this->numOfImages = $numOfImages;
 
         return $this;
     }
