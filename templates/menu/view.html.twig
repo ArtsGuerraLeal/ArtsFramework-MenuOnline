@@ -147,14 +147,13 @@
                     </div>
                     <div class="container">
                     <div class = "row">
-
                         <div class="col-sm text-center ">
 
                                 {% if menu_data.notes is not null %}
                                 {{ menu_data.notes }}
                                 {% endif %}
                                 {% if menu_data.info is not null %}
-                                    <button type="button" class="rounded-circle btn btn-light border-black mx-4" style="position: absolute" data-toggle="tooltip" data-placement="top" title="{{ menu_data.info }}">
+                                    <button type="button" class="rounded-circle btn btn-light border-black mx-4" style="position: absolute" data-toggle="popover" data-html="true" data-placement="right" title="{{ menu_data.info }}">
                                         i
                                     </button>
                                 {% endif %}
@@ -201,7 +200,7 @@
                     <div class="app-footer-left">
                         <ul class="nav">
                             <li class="nav-item">
-                                <a class="btn-sm btn-primary border-dark" href="https://wa.me/528111774732?text=Hola%2C+quisiera+publicarme+con+ustedes." role="button">Publicate aqui!</a>
+                                <a class="btn-sm btn-primary border-dark" href="https://wa.me/528111774732?text=Hola%2C+quisiera+publicarme+con+ustedes." role="button">Publícate aqui!</a>
                             </li>
                         </ul>
                     </div>
