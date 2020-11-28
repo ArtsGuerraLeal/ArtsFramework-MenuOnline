@@ -4,12 +4,12 @@
 <head>
 
     <title>{% block title %} {{ menu_data.title }} {% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
     <meta property="og:title" content="{{ menu_data.title }} " />
-    <meta property="og:url" content="{{ "https://www.fastmarket.com.mx/" ~ menu_data.name  }}" />
+    <meta property="og:url" content="{{ "https://www.fastmarkets.net/p/" ~ menu_data.name  }}" />
     <meta property="og:description" content="{{ menu_data.description }}"/>
-    <meta property="og:image" content="{{ "https://fastmarket.com.mx/images/"~ menu_data.preview }}"/>
-    <meta property="og:image:secure_url" content="{{ "https://fastmarket.com.mx/images/"~ menu_data.preview }}" />
+    <meta property="og:image" content="{{ "https://fastmarkets.net/images/"~ menu_data.preview }}"/>
+    <meta property="og:image:secure_url" content="{{ "https://fastmarkets.net/images/"~ menu_data.preview }}" />
     <meta property="og:type" content="article" />
     <meta property="og:locale" content="en_US" />
 
@@ -23,9 +23,9 @@
 
 <body class="bg-secondary">
 
-<link itemprop="thumbnailUrl" href="{{ "https://fastmarket.com.mx/images/"~ menu_data.preview }}">
+<link itemprop="thumbnailUrl" href="{{ "https://fastmarkets.net/images/"~ menu_data.preview }}">
 <span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
-  <link itemprop="url" href="{{ "https://fastmarket.com.mx/images/"~ menu_data.preview }}">
+  <link itemprop="url" href="{{ "https://fastmarkets.net/images/"~ menu_data.preview }}">
 </span>
 
 <div class="app-main bg-secondary">
@@ -41,6 +41,16 @@
                     font-family: sans-serif;
 
                     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+                }
+
+                .whatsapp{
+                    height:30px;
+                    width: 30px;
+                }
+
+                .phone{
+                    height:30px;
+                    width: 30px;
                 }
 
                 table {
@@ -159,8 +169,9 @@
                                 {% endif %}
 
                             <div>
-                            <button class="btn btn-secondary border-dark " onclick="call()">Llamar</button>
-                            <button class="btn btn-success border-dark" onclick="payment()">Whatsapp</button>
+
+                            <a onclick="call()"><img class="phone" src="{{ asset('assets/images/phone.png') }}"></a>
+                            <a onclick="payment()"><img class="whatsapp" src="{{ asset('assets/images/WhatsApp.png') }}"></a>
 
                             </div>
 
