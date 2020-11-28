@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\MenuRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -66,5 +67,19 @@ class LandingController extends AbstractController
         return $this->render('menu/payment.html.twig', [
             'menu_data' => $menu,
         ]);
+    }
+
+    /**
+     * @Route("/config", name="fetch_stripe_config", methods={"GET"})
+     * @param Request $request
+     * @return string
+     */
+    public function fetchStripeConfig(Request $request): string
+    {
+
+        $key = 'sk_test_HHOQhx8Nk5r0LJGDUaxYlfRK004xJe9Yiv';
+
+        return $key;
+
     }
 }

@@ -46,11 +46,16 @@
                 .whatsapp{
                     height:30px;
                     width: 30px;
+                    border-radius: 50%;
+                    box-shadow: 4px 4px 5px grey;
+
                 }
 
                 .phone{
                     height:30px;
                     width: 30px;
+                    border-radius: 50%;
+                    box-shadow: 4px 4px 5px grey;
                 }
 
                 table {
@@ -170,8 +175,8 @@
 
                             <div>
 
-                            <a onclick="call()"><img class="phone" src="{{ asset('assets/images/phone.png') }}"></a>
-                            <a onclick="payment()"><img class="whatsapp" src="{{ asset('assets/images/WhatsApp.png') }}"></a>
+                                <button class="btn btn-secondary border-dark " onclick="call()">Llamar</button>
+                                <button class="btn btn-success border-dark" onclick="payment()">Whatsapp</button>
 
                             </div>
 
