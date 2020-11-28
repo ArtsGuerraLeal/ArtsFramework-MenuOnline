@@ -34,7 +34,53 @@
 
         <div class="app-main__inner">
             <style>
+                .styled-table {
+                    border-collapse: collapse;
+                    margin: 25px 0;
+                    font-size: 0.9em;
+                    font-family: sans-serif;
 
+                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+                }
+
+                table {
+                    text-align: left;
+                    position: relative;
+                    border-collapse: collapse;
+                }
+
+                .styled-table thead tr {
+                    background-color: #009879;
+                    color: #ffffff;
+                    text-align: left;
+                }
+
+                .styled-table th {
+                    background-color: #009879;
+
+                    position: sticky;
+                    top: 0; /* Don't forget this, required for the stickiness */
+                }
+
+                .styled-table th,
+                .styled-table td {
+                    padding: 12px 15px;
+                }
+                .styled-table tbody tr {
+                    border-bottom: 1px solid #dddddd;
+                }
+
+                .styled-table tbody tr:nth-of-type(even) {
+                    background-color: #f3f3f3;
+                }
+
+                .styled-table tbody tr:last-of-type {
+                    border-bottom: 2px solid #009879;
+                }
+                .styled-table tbody tr.active-row {
+                    font-weight: bold;
+                    color: #009879;
+                }
                 html, body {
                     overflow-x: hidden;
                 }
@@ -65,20 +111,29 @@
 
                 <div class="card-body">
                     <div id="card-area">
+                        {% if menu_data.numOfImages <= 1 %}
+                            <img class=" img-fluid rounded my-3 border"  src="{{ asset('/images/'~ menu_data.image ~ '_1.png') }}" />
+                        {% endif %}
+                        {% if menu_data.numOfImages > 1 %}
                         <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
+
+
+
+
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <img class="d-block w-100 img-fluid rounded my-3 border"  src="{{ asset('/images/'~ menu_data.image ~ '_1.png') }}" />
                                 </div>
 
-                                {% if menu_data.numOfImages > 1 %}
+
                                 {% for i in 2..menu_data.numOfImages  %}
                                 <div class="carousel-item">
-                                    <img class="d-block w-100  img-fluid rounded my-3 border"  src="{{ asset('/images/'~ menu_data.image ~ '_'~ i ~'.png') }}" />
+                                    <img class="d-block w-100 img-fluid rounded my-3 border"  src="{{ asset('/images/'~ menu_data.image ~ '_'~ i ~'.png') }}" />
                                 </div>
                                     {%endfor %}
-                                {% endif %}
+
                             </div>
+
                             <a class="carousel-control-prev" href="#carouselExampleControls1" role="button" data-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Previous</span>
@@ -88,6 +143,7 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="container">
                     <div class = "row">
@@ -106,26 +162,28 @@
                             <div>
                             <button class="btn btn-secondary border-dark " onclick="call()">Llamar</button>
                             <button class="btn btn-success border-dark" onclick="payment()">Whatsapp</button>
+
                             </div>
 
+                                <div>
+                                    {% if menu_data.data is not null %}
+                                        <table id="cart" class="products-cart styled-table my-2 w-50" style="overflow: scroll;height: 200px;display:block;" >
+                                            <thead>
+                                            <tr>
+                                                <th>Producto</th>
+                                                <th>Cantidad</th>
+                                                <th></th>
 
-                            {% if menu_data.data is not null %}
-                                <table id="cart" class="products-cart table table-responsive table-bordered my-2" style="overflow: scroll;height: 200px;display:block;" >
-                                    <thead>
-                                    <tr>
-                                        <th>Producto</th>
-                                        <th>Cantidad</th>
-                                        <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
 
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                                            </tbody>
+                                        </table>
+                                    {% endif %}
+                                </div>
 
 
-
-                                    </tbody>
-                                </table>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -163,9 +221,6 @@
 
 
     <script>
-
-
-
         function call(){
             window.open("tel:+"+{{ menu_data.telephone }});
         }
@@ -227,11 +282,9 @@
                 return $(this).text() === prodName;
             });
             if(cellVal.text() === ""){
-                if(prodAmount ===1){
-                    cart.prepend('<tr id="'+prodName+'"><td >'+prodName+'</td><td id="quantity">1</td><td><div class="remove_product btn btn-danger btn-sm my-1 mx-1">Borrar</div><div class="remove_all btn btn-warning my-1 btn-sm">Borrar Todo</div></td></tr>');
-                }else{
-                    cart.prepend('<tr id="'+prodName+'"><td >'+prodName+'</td><td id="quantity">'+ prodAmount +'</td><td><div class="remove_product btn btn-danger btn-sm my-1 mx-1">Borrar</div><div class="remove_all btn btn-warning my-1 btn-sm">Borrar Todo</div><div class="discount_product btn btn-success my-1 btn-sm" data-toggle="modal" data-target="#discountModal">Descuento</div></td></tr>');
-                }
+
+                    cart.prepend('<tr class="active-row" id="'+prodName+'"><td >'+prodName+'</td><td id="quantity">1</td><td><div class="remove_product btn btn-danger btn-sm my-1 mx-1" style="position: initial;">Borrar</div><div class="remove_all btn btn-warning my-1 btn-sm" style="position: initial;">Vaciar</div></td></tr>');
+
             }else{
                 var quantity = parseInt(cellVal.parent().children()[1].innerText);
                 cellVal.parent().children()[1].innerText = quantity + 1;
@@ -287,7 +340,7 @@
             console.log(570*(1-(scale/100)));
             for(var i =0; i < getLength(jsonObj,'Button_');i++){
                 var key = "Button_"+ i;
-                var button = $("<button class='btn border-dark btn-outline-success add_product' id="+key+"></button>");
+                var button = $("<button class='btn border-dark btn-outline-link add_product' id="+key+"></button>");
                 $('#card-area').prepend(button);
                 posX = jsonObj[key].xpos;
                 posY = jsonObj[key].ypos;
