@@ -60,7 +60,7 @@ class LandingController extends AbstractController
      */
     public function PayService(MenuRepository $menuRepository,$name): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
+    //    $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
         $menu = $menuRepository->findOneBy(['name'=>$name]);
 
         return $this->render('menu/payment.html.twig', [
@@ -75,7 +75,7 @@ class LandingController extends AbstractController
      */
     public function success(MenuRepository $menuRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
+    //    $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
 
         return $this->render('menu/success.html.twig', [
 
@@ -89,7 +89,7 @@ class LandingController extends AbstractController
      */
     public function canceled(MenuRepository $menuRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
+    //    $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
 
         return $this->render('menu/canceled.html.twig', [
 
@@ -103,7 +103,7 @@ class LandingController extends AbstractController
      */
     public function fetchStripeConfig(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
+    //    $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
 
         $config = parse_ini_file('../StripeConfig.ini');
 
