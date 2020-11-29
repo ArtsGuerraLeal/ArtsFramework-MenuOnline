@@ -9,6 +9,7 @@
 /vendor/
 /.idea
 /symfony.lock
+/StripeConfig.ini
 ###< symfony/framework-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###

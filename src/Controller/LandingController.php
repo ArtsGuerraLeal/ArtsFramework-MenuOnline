@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Repository\MenuRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Stripe\Exception\ApiErrorException;
+use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,10 +62,6 @@ class LandingController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
         $menu = $menuRepository->findOneBy(['name'=>$name]);
-        \Stripe\Stripe::setApiKey('sk_test_HHOQhx8Nk5r0LJGDUaxYlfRK004xJe9Yiv');
-        $stripe = new \Stripe\StripeClient('sk_test_HHOQhx8Nk5r0LJGDUaxYlfRK004xJe9Yiv');
-
-
 
         return $this->render('menu/payment.html.twig', [
             'menu_data' => $menu,
@@ -70,16 +69,106 @@ class LandingController extends AbstractController
     }
 
     /**
+     * @Route("/success", name="menu_payment_success", methods={"GET"})
+     * @param MenuRepository $menuRepository
+     * @return Response
+     */
+    public function success(MenuRepository $menuRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
+
+        return $this->render('menu/success.html.twig', [
+
+        ]);
+    }
+
+    /**
+     * @Route("/canceled", name="menu_payment_canceled", methods={"GET"})
+     * @param MenuRepository $menuRepository
+     * @return Response
+     */
+    public function canceled(MenuRepository $menuRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
+
+        return $this->render('menu/canceled.html.twig', [
+
+        ]);
+    }
+
+    /**
      * @Route("/config", name="fetch_stripe_config", methods={"GET"})
      * @param Request $request
-     * @return string
+     * @return JsonResponse
      */
-    public function fetchStripeConfig(Request $request): string
+    public function fetchStripeConfig(Request $request): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_COMPANY_ADMIN');
 
-        $key = 'sk_test_HHOQhx8Nk5r0LJGDUaxYlfRK004xJe9Yiv';
+        $config = parse_ini_file('../StripeConfig.ini');
 
-        return $key;
+        $key = $config['stripe_publishable_key'];
+
+        $response = new JsonResponse([
+            'publishableKey' => $key,
+            'basicPrice' => $config['basic_price_id'],
+            'proPrice' => $config['pro_price_id']
+        ]);
+
+        return $response;
+
+    }
+
+    /**
+     * @Route("/create-checkout-session", name="fetch_stripe_checkout", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ApiErrorException
+     */
+    public function createCheckoutSession(Request $request): JsonResponse
+    {
+        $config = parse_ini_file('../StripeConfig.ini');
+
+        $key = $config['stripe_secret_key'];
+
+        Stripe::setApiKey($key);
+
+        $stripe = new \Stripe\StripeClient(
+            $key
+        );
+
+        if ($request->getMethod() == 'POST')
+        {
+            $priceId =  $request->request->get('priceId');
+
+        }
+        else {
+            die();
+        }
+
+        $price = $stripe->prices->retrieve(
+            $priceId,
+            []
+        );
+
+
+        $domain_url = 'https://fastmarkets.com';
+
+        $checkout_session = \Stripe\Checkout\Session::create([
+            'success_url' => $domain_url . '/success?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => $domain_url . '/canceled',
+            'payment_method_types' => ['card'],
+            'mode' => 'subscription',
+            'line_items' => [[
+                'price' => $price,
+                'quantity' => 1,
+                'tax_rates' => [
+                    'txr_1Hsa41DPWXDL9ZlsaDU9Ksjr',
+                ]
+            ]]
+        ]);
+
+        return new JsonResponse(['sessionId' => $checkout_session['id']]);
 
     }
 }

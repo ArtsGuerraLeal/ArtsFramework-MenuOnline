@@ -10,11 +10,11 @@
     {% block stylesheets %}
         <link href="{{ asset('fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('stripe/normalize.css') }}" />
-        <link rel="stylesheet" href="{{ asset('stripe/global.css') }}" />
+        <link  href="{{ asset('stripe/normalize.css') }}"rel="stylesheet" >
+        <link rel="stylesheet" href="{{ asset('stripe/global.css') }}" >
     {% endblock %}
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="{{ asset('js/StripeScript.js') }}"></script>
+    <script src="{{ asset('js/scriptStripe.js') }}"></script>
 </head>
 
 <body class="bg-secondary">
@@ -29,60 +29,53 @@
 
                 <div class="card-body">
                     <div id="card-area">
-                        <div class="flex justify-center">
-                            <div class="w-full max-w-sm m-6">
-                                <div class="pasha-image-stack">
-                                    <img
-                                            src="https://picsum.photos/280/320?random=1"
-                                            width="140"
-                                            height="160"
-                                    />
-                                    <img
-                                            src="https://picsum.photos/280/320?random=2"
-                                            width="140"
-                                            height="160"
-                                    />
-                                    <img
-                                            src="https://picsum.photos/280/320?random=3"
-                                            width="140"
-                                            height="160"
-                                    />
-                                    <img
-                                            src="https://picsum.photos/280/320?random=4"
-                                            width="140"
-                                            height="160"
-                                    />
-                                </div>
-                                <div class="text-pasha font-semibold text-xl mb-4">
-                                    Tu espacio de publicidad
-                                </div>
+                        <div class="sr-root">
+                            <div class="sr-main" style="display: flex;">
 
-                                <form id="signup-form">
-                                    <div class="w-full mb-2">
-                                        <!-- <label
-                                          class="block text-gray-500 font-bold mb-2"
-                                          for="inline-full-name"
-                                        >
-                                          Email address
-                                        </label> -->
-                                        <input
-                                                class="appearance-none border-2 border-gray-200 rounded-md w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pasha"
-                                                id="email"
-                                                type="text"
-                                                placeholder="Email address"
-                                                required
-                                        />
-                                    </div>
-
-                                    <button
-                                            id="email-submit"
-                                            class="w-full bg-pasha hover:bg-red-200 hover:shadow-outline rounded-md hover:text-pasha hover:border hover:border-black focus:shadow-outline text-white focus:bg-white focus:text-pasha font-light py-2 px-4 rounded"
-                                            type="submit"
-                                    >
-                                        <div id="loading" class="hidden">Signing up...</div>
-                                        <span id="button-text">Sign up</span>
-                                    </button>
-                                </form>
+                                <div class="sr-container">
+                                    <section class="container basic-photo">
+                                        <div>
+                                            <h1>Plan Basico</h1>
+                                            <h4>Actualizacion Manual</h4>
+                                            <div class="pasha-image">
+                                                <img
+                                                        src="https://picsum.photos/280/320?random=4"
+                                                        width="140"
+                                                        height="160"
+                                                />
+                                            </div>
+                                        </div>
+                                        <button id="basic-plan-btn">$300 MXN al Mes</button>
+                                    </section>
+                                    <section class="container pro-photo">
+                                        <div>
+                                            <h1>Plan Premium</h1>
+                                            <h4>3 Cambios por Mes</h4>
+                                            <div class="pasha-image-stack">
+                                                <img
+                                                        src="https://picsum.photos/280/320?random=1"
+                                                        width="105"
+                                                        height="120"
+                                                        alt="Sample Pasha image 1"
+                                                />
+                                                <img
+                                                        src="https://picsum.photos/280/320?random=2"
+                                                        width="105"
+                                                        height="120"
+                                                        alt="Sample Pasha image 2"
+                                                />
+                                                <img
+                                                        src="https://picsum.photos/280/320?random=3"
+                                                        width="105"
+                                                        height="120"
+                                                        alt="Sample Pasha image 3"
+                                                />
+                                            </div>
+                                        </div>
+                                        <button id="pro-plan-btn">$500 MXN al Mes</button>
+                                    </section>
+                                </div>
+                                <div id="error-message"></div>
                             </div>
                         </div>
 
