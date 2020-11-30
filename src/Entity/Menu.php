@@ -77,6 +77,11 @@ class Menu
      */
     private $numOfImages;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $website;
+
 
 
     public function getId(): ?int
@@ -224,6 +229,18 @@ class Menu
     public function setNumOfImages(?int $numOfImages): self
     {
         $this->numOfImages = $numOfImages;
+
+        return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): self
+    {
+        $this->website = $website;
 
         return $this;
     }

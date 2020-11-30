@@ -179,7 +179,9 @@
                                 {% endif %}
 
                             <div>
-
+                                {% if menu_data.website is not null %}
+                                    <a class="btn btn-primary border-dark" href="{{ menu_data.website }}">Website</a>
+                                {% endif %}
                                 <button class="btn btn-secondary border-dark " onclick="call()">Llamar</button>
                                 <button class="btn btn-success border-dark" onclick="payment()">Whatsapp</button>
 
@@ -221,7 +223,7 @@
                     <div class="app-footer-left">
                         <ul class="nav">
                             <li class="nav-item">
-                                <a class="btn-sm btn-primary border-dark" href="https://wa.me/528111774732?text=Hola%2C+quisiera+publicarme+con+ustedes." role="button">Publícate aquí!</a>
+                                <a class="btn-sm btn-primary border-dark" href="/" role="button">Publícate aquí!</a>
                             </li>
                         </ul>
                     </div>
