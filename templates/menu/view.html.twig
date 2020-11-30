@@ -51,6 +51,13 @@
 
                 }
 
+                .infobadge{
+                    height:30px;
+                    width: 30px;
+
+
+                }
+
                 .phone{
                     height:30px;
                     width: 30px;
@@ -168,9 +175,7 @@
                                 {{ menu_data.notes }}
                                 {% endif %}
                                 {% if menu_data.info is not null %}
-                                    <button type="button" class="rounded-circle btn btn-light border-black mx-4" style="position: absolute" data-toggle="popover" data-html="true" data-placement="right" title="{{ menu_data.info }}">
-                                        i
-                                    </button>
+                                    <a type="button" class="mx-4"  style="position: absolute" data-toggle="popover" data-html="true"data-placement="right" title="{{ menu_data.info }}"><img class="infobadge" src="{{ asset('assets/images/info.png') }}"></a>
                                 {% endif %}
 
                             <div>

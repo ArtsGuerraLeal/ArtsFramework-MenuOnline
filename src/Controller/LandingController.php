@@ -37,6 +37,16 @@ class LandingController extends AbstractController
     }
 
     /**
+     * @Route("/privacy", name="privacy")
+     */
+    public function privacy()
+    {
+        return $this->render('landing/privacy.html.twig', [
+            'controller_name' => 'LandingController',
+        ]);
+    }
+
+    /**
      * @Route("/p/{name}", name="menu_view_name", methods={"GET"})
      * @param MenuRepository $menuRepository
      * @param $name
