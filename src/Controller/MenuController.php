@@ -3,16 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Menu;
+use App\Form\MenuType;
 use App\Repository\MenuRepository;
+use Aws\AwsClient;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-
+use Aws\S3\S3Client;
 
 /**
  * @Route("/menu")
@@ -34,12 +37,45 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @Route("/create", name="menu_create")
+     * @Route("/create", name="menu_create", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
-    public function create(): Response
+    public function Create(Request $request): Response
     {
+        $menu = new Menu();
+
+
+        $s3 = new S3Client([
+            'version' => 'latest',
+            'region'  => 'us-west-2'
+        ]);
+
+
+        $user = $this->security->getUser();
+        $menu->setCompany($user->getCompany());
+        $form = $this->createForm(MenuType::class, $menu);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            /**@var UploadedFile $file */
+            $file = $request->files->get('menu')['attachment'];
+            if($file){
+                $filename = md5(uniqid()). '.' . $file->guessClientExtension();
+                $file->move(
+                    $this->getParameter('uploads_dir'),
+                    $filename);
+                $menu->setImage($filename);
+            }
+            $entityManager->persist($menu);
+            $entityManager->flush();
+            return $this->redirectToRoute('home.index');
+        }
+
         return $this->render('menu/create.html.twig', [
-            'controller_name' => 'MenuController',
+            'form' => $form->createView()
+
         ]);
     }
 

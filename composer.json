@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "aws/aws-sdk-php": "^3.166",
         "dompdf/dompdf": "^0.8.3",
         "friendsofsymfony/rest-bundle": "^2.6",
         "google/apiclient": "^2.4",
@@ -30,7 +31,6 @@
         "symfony/yaml": "4.4.*",
         "tattali/calendar-bundle": "^1.1",
         "twilio/sdk": "^6.0"
-
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.13"
