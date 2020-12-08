@@ -82,6 +82,36 @@ class Menu
      */
     private $website;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $websiteVisits;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $phoneVisits;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $whatsappVisits;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $visits;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $infoVisits;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $promotionVisits;
+
 
 
     public function getId(): ?int
@@ -241,6 +271,78 @@ class Menu
     public function setWebsite(?string $website): self
     {
         $this->website = $website;
+
+        return $this;
+    }
+
+    public function getWebsiteVisits(): ?int
+    {
+        return $this->websiteVisits;
+    }
+
+    public function setWebsiteVisits(?int $websiteVisits): self
+    {
+        $this->websiteVisits = $websiteVisits;
+
+        return $this;
+    }
+
+    public function getPhoneVisits(): ?int
+    {
+        return $this->phoneVisits;
+    }
+
+    public function setPhoneVisits(?int $phoneVisits): self
+    {
+        $this->phoneVisits = $phoneVisits;
+
+        return $this;
+    }
+
+    public function getWhatsappVisits(): ?int
+    {
+        return $this->whatsappVisits;
+    }
+
+    public function setWhatsappVisits(?int $whatsappVisits): self
+    {
+        $this->whatsappVisits = $whatsappVisits;
+
+        return $this;
+    }
+
+    public function getVisits(): ?int
+    {
+        return $this->visits;
+    }
+
+    public function setVisits(?int $visits): self
+    {
+        $this->visits = $visits;
+
+        return $this;
+    }
+
+    public function getInfoVisits(): ?int
+    {
+        return $this->infoVisits;
+    }
+
+    public function setInfoVisits(?int $infoVisits): self
+    {
+        $this->infoVisits = $infoVisits;
+
+        return $this;
+    }
+
+    public function getPromotionVisits(): ?int
+    {
+        return $this->promotionVisits;
+    }
+
+    public function setPromotionVisits(?int $promotionVisits): self
+    {
+        $this->promotionVisits = $promotionVisits;
 
         return $this;
     }

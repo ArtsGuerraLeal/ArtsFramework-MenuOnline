@@ -27,11 +27,12 @@ class MenuController extends AbstractController
      * @var EntityManagerInterface
      */
     private $entityManager;
+    private $menuRepository;
 
 
-    public function __construct( EntityManagerInterface $entityManager, Security $security){
+    public function __construct( EntityManagerInterface $entityManager, Security $security, MenuRepository $menuRepository){
         $this->entityManager = $entityManager;
-
+        $this->menuRepository = $menuRepository;
         $this->security = $security;
 
     }
@@ -56,8 +57,6 @@ class MenuController extends AbstractController
                 'secret' => $skey,
             ]
         ]);
-
-
 
         $user = $this->security->getUser();
         $menu->setCompany($user->getCompany());
@@ -156,14 +155,10 @@ class MenuController extends AbstractController
             die();
         }
 
-
-
         $em = $this->getDoctrine()->getManager();
         $menu = new Menu();
         $user = $this->security->getUser();
         $menu->setCompany($user->getCompany());
-
-
 
         $menu->setData($menuData);
         $menu->setImage("pending.jpg");
@@ -176,6 +171,55 @@ class MenuController extends AbstractController
 
         return $returnResponse;
 
+    }
+
+    /**
+     * @Route("/visit", name="visit_counter", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function Visit(Request $request):JsonResponse
+    {
+        if ($request->getMethod() == 'POST')
+        {
+            $visitData = $request->request->get('visitData');
+            $name = $request->request->get('name');
+
+        }
+        else {
+            die();
+        }
+        $em = $this->getDoctrine()->getManager();
+
+        $menu = $this->menuRepository->findOneBy(['name'=>$name]);
+
+        if($visitData == 'visit'){
+            $visits = $menu->getVisits()+1;
+            $menu->setVisits($visits);
+        }elseif ($visitData == 'phone'){
+            $visits = $menu->getPhoneVisits()+1;
+            $menu->setPhoneVisits($visits);
+        }elseif ($visitData == 'whatsapp'){
+            $visits = $menu->getWhatsappVisits()+1;
+            $menu->setWhatsappVisits($visits);
+        }elseif ($visitData == 'website'){
+            $visits = $menu->getWebsiteVisits()+1;
+            $menu->setWebsiteVisits($visits);
+        }elseif ($visitData == 'info'){
+            $visits = $menu->getInfoVisits()+1;
+            $menu->setInfoVisits($visits);
+        }elseif ($visitData == 'promo'){
+            $visits = $menu->getPromotionVisits()+1;
+            $menu->setPromotionVisits($visits);
+        }
+
+        $em->persist($menu);
+        $em->flush();
+
+        $returnResponse = new JsonResponse();
+        $returnResponse->setjson("Json recieved");
+
+        return $returnResponse;
 
     }
 }

@@ -147,9 +147,6 @@
                         {% if menu_data.numOfImages > 1 %}
                         <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
 
-
-
-
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <img class="d-block img-fluid mx-auto rounded my-3 border" style="min-height:445px; width:auto;object-fit: scale-down;" src="{{ asset('/images/'~ menu_data.image ~ '_1.png') }}" />
@@ -183,12 +180,12 @@
                                 {{ menu_data.notes }}
                                 {% endif %}
                                 {% if menu_data.info is not null %}
-                                    <a class="mx-4"  style="position: absolute" data-toggle="popover" data-html="true"data-placement="right" title="{{ menu_data.info }}"><img class="infobadge" src="{{ asset('assets/images/info.png') }}"></a>
+                                    <a class="mx-2"  style="position: absolute" data-toggle="popover" data-html="true" data-placement="right" title="{{ menu_data.info }}" onclick="info()"><img class="infobadge" src="{{ asset('assets/images/info.png') }}"></a>
                                 {% endif %}
 
-                            <div>
+                            <div class="mt-3">
                                 {% if menu_data.website is not null %}
-                                    <a class="btn btn-primary border-dark" href="{{ menu_data.website }}">Website</a>
+                                <button class="btn btn-primary border-dark" onclick="website()">Website</button>
                                 {% endif %}
                                 <button class="btn btn-secondary border-dark " onclick="call()">Llamar</button>
                                 <button class="btn btn-success border-dark" onclick="payment()">Whatsapp</button>
@@ -226,7 +223,7 @@
             <p class="dataText" style="display: none" >{{ menu_data.data }}</p>
 
         </div>
-        <a class=" mt-3 my-1 btn-sm btn-warning border-dark text-center" style="font-family: 'Alata';font-size: 20px" href="/" role="button">Publícate Aquí!</a>
+        <a class=" mt-3 my-1 btn-sm btn-warning border-dark text-center" style="font-family: 'Alata';font-size: 20px" role="button" onclick="promo()">Publícate Aquí!</a>
 
     </div>
 </div>
@@ -240,7 +237,84 @@
 
 
     <script>
+        $(document).ready(function(data){
+            visit();
+        });
+
+        function visit(){
+            $.ajax({
+                url:"{{ path('visit_counter') }}",
+                type: "POST",
+                data:{
+                    visitData:'visit',
+                    name:'{{ menu_data.name }}'
+                },
+                success:function (php_result) {
+                    console.log(php_result);
+                }
+            });
+        }
+
+        function website(){
+            $.ajax({
+                url:"{{ path('visit_counter') }}",
+                type: "POST",
+                data:{
+                    visitData:'website',
+                    name:'{{ menu_data.name }}'
+                },
+                success:function (php_result) {
+                    console.log(php_result);
+                }
+            });
+
+            window.open('{{ menu_data.website }}');
+
+        }
+
+        function promo(){
+            $.ajax({
+                url:"{{ path('visit_counter') }}",
+                type: "POST",
+                data:{
+                    visitData:'promo',
+                    name:'{{ menu_data.name }}'
+                },
+                success:function (php_result) {
+                    console.log(php_result);
+                }
+            });
+
+            window.open("https://fastmarkets.net");
+
+        }
+
+        function info(){
+            $.ajax({
+                url:"{{ path('visit_counter') }}",
+                type: "POST",
+                data:{
+                    visitData:'info',
+                    name:'{{ menu_data.name }}'
+                },
+                success:function (php_result) {
+                    console.log(php_result);
+                }
+            });
+        }
+
         function call(){
+            $.ajax({
+                url:"{{ path('visit_counter') }}",
+                type: "POST",
+                data:{
+                    visitData:'phone',
+                    name:'{{ menu_data.name }}'
+                },
+                success:function (php_result) {
+                    console.log(php_result);
+                }
+            });
             window.open("tel:+"+{{ menu_data.telephone }});
         }
         function payment() {
@@ -260,6 +334,19 @@
             });
             var uriText = encodeURI(uri);
             // console.log(uri)
+
+            $.ajax({
+                url:"{{ path('visit_counter') }}",
+                type: "POST",
+                data:{
+                    visitData:'whatsapp',
+                    name:'{{ menu_data.name }}'
+                },
+                success:function (php_result) {
+                    console.log(php_result);
+                }
+            });
+
             window.location.href = "https://wa.me/"+{{ menu_data.telephone }} +"?text="+uriText;
         }
         function loadButtons(){
@@ -343,6 +430,8 @@
                 $('#'+key).css({"height":buttonHeight*scaleMult});
             }
         }
+
+
         $(document).ready(function(data){
             var elementText = $('.dataText').text();
             var jsonObj = jQuery.parseJSON(elementText);
