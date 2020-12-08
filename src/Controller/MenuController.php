@@ -47,9 +47,14 @@ class MenuController extends AbstractController
 
 
         $s3 = new S3Client([
+            'region'  => 'us-east-2',
             'version' => 'latest',
-            'region'  => 'us-west-2'
+            'credentials' => [
+                'key'    => "AKIAIZNSU6EHVZKQ45ZQ",
+                'secret' => "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",
+            ]
         ]);
+
 
 
         $user = $this->security->getUser();
@@ -63,10 +68,19 @@ class MenuController extends AbstractController
             $file = $request->files->get('menu')['attachment'];
             if($file){
                 $filename = md5(uniqid()). '.' . $file->guessClientExtension();
-                $file->move(
+                $temp_file_location = $file->move(
                     $this->getParameter('uploads_dir'),
                     $filename);
+
                 $menu->setImage($filename);
+                $s3->putObject([
+                    'Bucket' => 'fastmarkets',
+                    'Key'    => $filename,
+                    'SourceFile' => $temp_file_location,
+                    'ACL'    => 'public-read'
+                ]);
+
+                unlink($temp_file_location);
             }
             $entityManager->persist($menu);
             $entityManager->flush();
