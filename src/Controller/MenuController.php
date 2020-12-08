@@ -44,14 +44,16 @@ class MenuController extends AbstractController
     public function Create(Request $request): Response
     {
         $menu = new Menu();
-
+        $config = parse_ini_file('../AmazonConfig.ini');
+        $skey = $config['amazon_secret_key'];
+        $key = $config['amazon_key'];
 
         $s3 = new S3Client([
             'region'  => 'us-east-2',
             'version' => 'latest',
             'credentials' => [
-                'key'    => "AKIAIZNSU6EHVZKQ45ZQ",
-                'secret' => "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",
+                'key'    => $key,
+                'secret' => $skey,
             ]
         ]);
 

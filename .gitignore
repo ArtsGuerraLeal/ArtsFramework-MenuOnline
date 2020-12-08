@@ -10,6 +10,8 @@
 /.idea
 /symfony.lock
 /StripeConfig.ini
+/AmazonConfig.ini
+
 ###< symfony/framework-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###
