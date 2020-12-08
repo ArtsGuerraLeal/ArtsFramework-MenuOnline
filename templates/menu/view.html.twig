@@ -179,7 +179,7 @@
                                 <button class="btn btn-primary border-dark" onclick="website()">Website</button>
                                 {% endif %}
                                 <button class="btn btn-secondary border-dark " onclick="call()">Llamar</button>
-                                <button class="btn btn-success border-dark" onclick="payment()">Whatsapp</button>
+                                <button class="btn btn-success border-dark" onclick="whatsapp()">Whatsapp</button>
 
                             </div>
 
@@ -307,6 +307,28 @@
                 }
             });
             window.open("tel:+"+{{ menu_data.telephone }});
+        }
+
+        function whatsapp(){
+            $.ajax({
+                url:"{{ path('visit_counter') }}",
+                type: "POST",
+                data:{
+                    visitData:'whatsapp',
+                    name:'{{ menu_data.name }}'
+                },
+                success:function (php_result) {
+                    console.log(php_result);
+
+
+
+                }
+            });
+
+            var uri ='{{ menu_data.greeting }}\n';
+            var uriText = encodeURI(uri);
+
+            window.open("https://wa.me/"+{{ menu_data.telephone }} +"?text="+uriText);
         }
         function payment() {
             $.ajax({
