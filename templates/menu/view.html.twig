@@ -134,7 +134,7 @@
                 <div class="card-body">
                     <div id="card-area">
                         {% if menu_data.numOfImages <= 1 %}
-                            <img class="d-block img-fluid rounded mx-auto my-3 border" style="height: 440px;width:300px "  src="{{ asset('/images/'~ menu_data.image ~ '_1.png') }}" />
+                            <img class="d-block img-fluid rounded mx-auto my-3 border"   src="{{ asset('/images/'~ menu_data.image ~ '_1.png') }}" />
                         {% endif %}
                         {% if menu_data.numOfImages > 1 %}
                         <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
