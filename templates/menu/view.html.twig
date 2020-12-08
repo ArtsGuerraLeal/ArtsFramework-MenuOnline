@@ -58,13 +58,11 @@
                 }
 
                     .myfooter {
-                    position: fixed;
+                    position: ;
                     left: 0;
                     bottom: 0;
                     width: 100%;
-                    background-color: white;
-                    color: white;
-                    height: 50px;
+
                 }
 
 
@@ -141,7 +139,7 @@
 
             <div class="main-card card">
 
-                <div class="card-body">
+                <div class="card-body" style="min-height: 90vh;" >
                     <div id="card-area">
                         {% if menu_data.numOfImages <= 1 %}
                             <img class="d-block img-fluid rounded mx-auto my-3 border" src="{{ asset('/images/'~ menu_data.image ~ '_1.png') }}" />
@@ -228,7 +226,7 @@
             <p class="dataText" style="display: none" >{{ menu_data.data }}</p>
 
         </div>
-        <a class="my-1 btn-sm btn-warning border-dark text-center" style="font-family: 'Alata';font-size: 20px" href="/" role="button">Publícate Aquí!</a>
+        <a class=" my-1 btn-sm btn-warning border-dark text-center" style="font-family: 'Alata';font-size: 20px" href="/" role="button">Publícate Aquí!</a>
 
     </div>
 </div>
