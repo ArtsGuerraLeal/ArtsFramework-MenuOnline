@@ -57,15 +57,6 @@
 
                 }
 
-                    .myfooter {
-                    position: ;
-                    left: 0;
-                    bottom: 0;
-                    width: 100%;
-
-                }
-
-
                 .phone{
                     height:30px;
                     width: 30px;
@@ -318,6 +309,18 @@
             window.open("tel:+"+{{ menu_data.telephone }});
         }
         function payment() {
+            $.ajax({
+                url:"{{ path('visit_counter') }}",
+                type: "POST",
+                data:{
+                    visitData:'whatsapp',
+                    name:'{{ menu_data.name }}'
+                },
+                success:function (php_result) {
+                    console.log(php_result);
+                }
+            });
+
             var row_count = $('#cart tr').length;
             var uri ='{{ menu_data.greeting }}\n';
             $('#cart tr').each(function(index, tr) {
@@ -335,17 +338,7 @@
             var uriText = encodeURI(uri);
             // console.log(uri)
 
-            $.ajax({
-                url:"{{ path('visit_counter') }}",
-                type: "POST",
-                data:{
-                    visitData:'whatsapp',
-                    name:'{{ menu_data.name }}'
-                },
-                success:function (php_result) {
-                    console.log(php_result);
-                }
-            });
+
 
             window.location.href = "https://wa.me/"+{{ menu_data.telephone }} +"?text="+uriText;
         }
