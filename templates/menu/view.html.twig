@@ -134,7 +134,7 @@
                 <div class="card-body">
                     <div id="card-area">
                         {% if menu_data.numOfImages <= 1 %}
-                            <img class="d-block img-fluid rounded mx-auto my-3 border"   src="{{ asset('/images/'~ menu_data.image ~ '_1.png') }}" />
+                            <img class="d-block img-fluid rounded mx-auto my-3 border" src="{{ asset('/images/'~ menu_data.image ~ '_1.png') }}" />
                         {% endif %}
                         {% if menu_data.numOfImages > 1 %}
                         <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
@@ -218,9 +218,9 @@
         </div>
 
 
-        <div class="app-wrapper-footer bg-light">
-            <div class="app-footer" >
-                <div class="app-footer__inner" style="bottom: 0;position: absolute;">
+        <div class="app-wrapper-footer bg-light"style="bottom: 0;position: sticky;">
+            <div class="app-footer">
+                <div class="app-footer__inner" >
                         <ul class="nav">
                             <li class="nav-item">
                                 <a class="btn-sm btn-primary border-dark " style="font-family: 'Alata';font-size: 20px" href="/" role="button">Publícate aquí!</a>
