@@ -59,7 +59,7 @@ class User implements UserInterface, TwoFactorInterface
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
 

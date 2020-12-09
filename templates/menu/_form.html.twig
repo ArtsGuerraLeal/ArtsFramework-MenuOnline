@@ -40,17 +40,25 @@
     <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
         <div class="main-card mb-3 card">
             <div class="card-body">
-                <h5 class="card-title">Paciente</h5>
+                <h5 class="card-title">Publicidad</h5>
+                <div class="row">
+                    <div class="col">
+                {{ form_row(form.title, {'label':'Titulo de Promoción'})  }}
                 {{ form_row(form.telephone, {'value':'52' }) }}
-                {{ form_row(form.greeting, {'attr':{'pattern': '[a-zA-Z ]*'} })  }}
-                {{ form_row(form.name) }}
-                {{ form_row(form.notes) }}
-                {{ form_row(form.title) }}
-                {{ form_row(form.info) }}
+                {{ form_row(form.greeting, {'value':'Hola, quisiera hacer un pedido','label':'Contenido de Mensaje Whatsapp','attr':{'pattern': '[a-zA-Z ]*'} })  }}
+                {{ form_row(form.name, {'label':'URL: https://fastmarkets.net/p/...','attr':{'pattern': "[^' ']+" } })  }}
+                {{ form_row(form.notes, {'value':'Servicio en','label':'Notas (Opcional)','attr':{'pattern': '[a-zA-Z ]*'} })  }}
 
-                {{ form_row(form.description, {'attr':{'pattern': '[a-zA-Z ]*'} })  }}
-                {{ form_row(form.website) }}
+                {{ form_row(form.info, {'label':'Info (Opcional)'})  }}
 
+                {{ form_row(form.description, {'value':'Ordena con nosotros por Whatsapp','label':'Descripción (Opcional)','attr':{'pattern': '[a-zA-Z ]*'} })  }}
+                {{ form_row(form.website, {'label':'Sitio Web (Opcional)'})  }}
+                    </div>
+                    <div class="col">
+                        <img class="img-fluid float-right" style="height:75%; width: auto" src="{{ asset('assets/images/iphone.png') }}">
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

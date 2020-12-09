@@ -60,7 +60,16 @@ class MenuController extends AbstractController
 
         $user = $this->security->getUser();
         $menu->setCompany($user->getCompany());
+
+
         $form = $this->createForm(MenuType::class, $menu);
+        $menu->setWebsiteVisits(0);
+        $menu->setVisits(0);
+        $menu->setPromotionVisits(0);
+        $menu->setWhatsappVisits(0);
+        $menu->setPhoneVisits(0);
+        $menu->setInfoVisits(0);
+        $menu->setNumOfImages(1);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -68,12 +77,15 @@ class MenuController extends AbstractController
             /**@var UploadedFile $file */
             $file = $request->files->get('menu')['attachment'];
             if($file){
-                $filename = md5(uniqid()). '.' . $file->guessClientExtension();
+                $imageID = md5(uniqid());
+
+                $filename = $imageID . '_1' . $file->guessClientExtension();
+
                 $temp_file_location = $file->move(
                     $this->getParameter('uploads_dir'),
                     $filename);
 
-                $menu->setImage($filename);
+                $menu->setImage($imageID);
                 $s3->putObject([
                     'Bucket' => 'fastmarkets',
                     'Key'    => $filename,

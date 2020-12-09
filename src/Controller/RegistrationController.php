@@ -142,39 +142,18 @@ class RegistrationController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('firstname', TextType::class)
             ->add('lastname', TextType::class, ['label' => false])
-            ->add('username', TextType::class, ['label' => false])
-            ->add('email', EmailType::class, ['label' => false])
+            ->add('username', EmailType::class, ['label' => false])
             ->add('password',RepeatedType::class,[
                 'type' => PasswordType::class,
                 'required' => true,
                 'first_options'  => ['label' => 'Password'],
                 'second_options' => ['label' => 'Confirm Password']
             ])
-            ->add('create',ButtonType::class,[
-                'attr' => [
-                    'class' => 'btn btn-primary btn-block',
-                    'onclick'=>"openTab(event,'Tab1')"
-                ]
-            ])
-            ->add('companyname', TextType::class,[
-                'label'  => 'Company Name',
-                    'required'=>false
-                ]
-            )
-            ->add('join',ButtonType::class,[
-                'attr' => [
-                    'class' => 'btn btn-primary btn-block',
-                    'onclick'=>"openTab(event,'Tab2')"
-                ]
-            ])
-            ->add('companyid', NumberType::class,[
-                'label'  => 'Company ID',
-                    'required'=>false
-                ]
-            )
             ->add('register',SubmitType::class,[
+                'label'=>'Registrate',
                 'attr' => [
                     'class' => 'btn btn-primary btn-block'
+
                 ]
             ])
             ->getForm();
@@ -193,46 +172,24 @@ class RegistrationController extends AbstractController
             );
             $user->setFirstname($data['firstname']);
             $user->setLastname($data['lastname']);
-            $user->setEmail($data['email']);
+            $user->setEmail($data['username']);
 
             $user->setRegisterdate(new \DateTime('now',new \DateTimeZone('America/Mexico_City')));
 
-            if (!empty($data['companyname']) && !empty($data['companyid'])){
-                $this->addFlash('error', 'Both Join and  Create fields filled! Only fill one');
-            }else {
-                if (!empty($data['companyname'])) {
+            $user->setRoles(['ROLE_COMPANY_ADMIN']);
+            $company = new Company();
+            $company->setName($data['username']);
+            $company->setCode(md5(uniqid()));
 
-                    $user->setRoles(['ROLE_COMPANY_ADMIN']);
-                    $company = new Company();
-                    $company->setName($data['companyname']);
-                    $company->setCode(md5(uniqid()));
+            $em->persist($company);
+            $em->flush();
 
+            $user->setCompany($company);
 
-                    $customer = Customer::create([
-                        'name' => $data['companyname'],
-                        'email' => $data['email']
-                    ]);
+            $em->persist($user);
+            $em->flush();
+            return $this->redirect($this->generateUrl('app_login'));
 
-                    $company->setStripeId($customer['id']);
-
-
-                    $em->persist($company);
-                    $em->flush();
-                    $user->setCompany($company);
-                } elseif (!empty($data['companyid'])) {
-                    $company = $companyRepository->findOneBy(['id' => $data['companyid']]);
-                    $user->setCompany($company);
-                    $user->setRoles(['ROLE_UNAUTHORIZED_USER']);
-                }
-
-                //  $secret = $authenticator->generateSecret();
-                //     $user->setGoogleAuthenticatorSecret($secret);
-
-
-                $em->persist($user);
-                $em->flush();
-                return $this->redirect($this->generateUrl('app_login'));
-            }
         }
         return $this->render('registration/index.html.twig', [
             'form' => $form->createView()
