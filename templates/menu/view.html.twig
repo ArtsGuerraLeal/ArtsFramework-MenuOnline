@@ -4,7 +4,7 @@
 <head>
 
     <title>{% block title %} {{ menu_data.title }} {% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=yes, shrink-to-fit=no" />
     <meta property="og:title" content="{{ menu_data.title }} " />
     <meta property="og:url" content="{{ "https://fastmarkets.net/p/" ~ menu_data.name  }}" />
     <meta property="og:description" content="{{ menu_data.description }}"/>
@@ -35,7 +35,6 @@
 
         <div class="app-main__inner">
             <style>
-
                 @media(min-height:640px) and (max-height:740px)
                 {
                     .prod-img{
@@ -44,7 +43,6 @@
                         object-fit: scale-down;
                     }
                 }
-
                 @media(min-height:740px) and (max-height:845px)
                 {
                     .prod-img{
@@ -53,7 +51,6 @@
                         object-fit: scale-down;
                     }
                 }
-
                 @media(min-height:846px) and (max-height:1200px)
                 {
                     .prod-img{
@@ -62,7 +59,6 @@
                         object-fit: scale-down;
                     }
                 }
-
                 @media(min-height:1200px) and (max-height:2200px)
                 {
                     .prod-img{
@@ -71,60 +67,44 @@
                         object-fit: scale-down;
                     }
                 }
-
-
-
-
                 .styled-table {
                     border-collapse: collapse;
                     margin: 25px 0;
                     font-size: 0.9em;
                     font-family: sans-serif;
-
                     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
                 }
-
                 .whatsapp{
                     height:20px;
                     width: 20px;
                     border-radius: 50%;
                     box-shadow: 4px 4px 5px grey;
-
                 }
-
                 .infobadge{
                     height:28px;
                     width: 28px;
-
-
                 }
-
                 .phone{
                     height:30px;
                     width: 30px;
                     border-radius: 50%;
                     box-shadow: 4px 4px 5px grey;
                 }
-
                 table {
                     text-align: left;
                     position: relative;
                     border-collapse: collapse;
                 }
-
                 .styled-table thead tr {
                     background-color: #009879;
                     color: #ffffff;
                     text-align: left;
                 }
-
                 .styled-table th {
                     background-color: #009879;
-
                     position: sticky;
                     top: 0; /* Don't forget this, required for the stickiness */
                 }
-
                 .styled-table th,
                 .styled-table td {
                     padding: 12px 15px;
@@ -132,11 +112,9 @@
                 .styled-table tbody tr {
                     border-bottom: 1px solid #dddddd;
                 }
-
                 .styled-table tbody tr:nth-of-type(even) {
                     background-color: #f3f3f3;
                 }
-
                 .styled-table tbody tr:last-of-type {
                     border-bottom: 2px solid #009879;
                 }
@@ -153,7 +131,6 @@
                     margin: 0;
                     padding: 0;
                 }
-
                 .add_product{
                     margin-top: 1rem;
                     margin-right: 1rem;
@@ -178,56 +155,56 @@
                             <img class="prod-img d-block img-fluid rounded mx-auto my-3 border" src="{{ asset('/images/'~ menu_data.image ~ '_1.png') }}" />
                         {% endif %}
                         {% if menu_data.numOfImages > 1 %}
-                        <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel" data-touch="false" data-interval="20000">
+                            <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel" data-interval="20000">
 
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <div class="zoom">
-                                    <img class="prod-img d-block img-fluid mx-auto rounded my-3 border" src="{{ asset('/images/'~ menu_data.image ~ '_1.png') }}" />
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <div class="">
+                                            <img class="prod-img d-block img-fluid mx-auto rounded my-3 border" src="{{ asset('/images/'~ menu_data.image ~ '_1.png') }}" />
+                                        </div>
                                     </div>
-                                </div>
 
 
-                                {% for i in 2..menu_data.numOfImages  %}
-                                <div class="carousel-item">
-                                    <div class="zoom">
-                                    <img class="prod-img d-block img-fluid mx-auto rounded my-3 border" src="{{ asset('/images/'~ menu_data.image ~ '_'~ i ~'.png') }}" />
-                                    </div>
-                                </div>
+                                    {% for i in 2..menu_data.numOfImages  %}
+                                        <div class="carousel-item">
+                                            <div class="">
+                                                <img class="prod-img d-block img-fluid mx-auto rounded my-3 border" src="{{ asset('/images/'~ menu_data.image ~ '_'~ i ~'.png') }}" />
+                                            </div>
+                                        </div>
                                     {%endfor %}
 
-                            </div>
+                                </div>
 
-                            <a class="carousel-control-prev"  href="#carouselExampleControls1" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next"  href="#carouselExampleControls1" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
+                                <a class="carousel-control-prev"  href="#carouselExampleControls1" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next"  href="#carouselExampleControls1" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
                         {% endif %}
                     </div>
                     <div class="container">
-                    <div class = "row">
-                        <div class="col-sm text-center ">
+                        <div class = "row">
+                            <div class="col-sm text-center ">
 
                                 {% if menu_data.notes is not null %}
-                                {{ menu_data.notes }}
+                                    {{ menu_data.notes }}
                                 {% endif %}
                                 {% if menu_data.info is not null %}
                                     <a class="mx-2"  style="position: absolute" data-toggle="popover" data-html="true" data-placement="right" title="{{ menu_data.info }}" onclick="info()"><img class="infobadge" src="{{ asset('assets/images/info.png') }}"></a>
                                 {% endif %}
 
-                            <div class="mt-3">
-                                {% if menu_data.website is not null %}
-                                <button class="btn btn-primary border-dark" onclick="website()">Website</button>
-                                {% endif %}
-                                <button class="btn btn-secondary border-dark " onclick="call()">Llamar</button>
-                                <button class="btn btn-success border-dark" onclick="whatsapp()">Whatsapp</button>
+                                <div class="mt-3">
+                                    {% if menu_data.website is not null %}
+                                        <button class="btn btn-primary border-dark" onclick="website()">Website</button>
+                                    {% endif %}
+                                    <button class="btn btn-secondary border-dark " onclick="call()">Llamar</button>
+                                    <button class="btn btn-success border-dark" onclick="whatsapp()">Whatsapp</button>
 
-                            </div>
+                                </div>
 
                                 <div>
                                     {% if menu_data.data is not null %}
@@ -248,12 +225,12 @@
                                 </div>
 
 
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
-
-            </div>
 
             </div>
 
@@ -274,11 +251,9 @@
 
 
     <script>
-
         $(document).ready(function(data){
             visit();
         });
-
         function visit(){
             $.ajax({
                 url:"{{ path('visit_counter') }}",
@@ -292,7 +267,6 @@
                 }
             });
         }
-
         function website(){
             $.ajax({
                 url:"{{ path('visit_counter') }}",
@@ -305,11 +279,8 @@
                     console.log(php_result);
                 }
             });
-
             window.open('{{ menu_data.website }}');
-
         }
-
         function promo(){
             $.ajax({
                 url:"{{ path('visit_counter') }}",
@@ -322,11 +293,8 @@
                     console.log(php_result);
                 }
             });
-
             window.open("https://fastmarkets.net");
-
         }
-
         function info(){
             $.ajax({
                 url:"{{ path('visit_counter') }}",
@@ -340,7 +308,6 @@
                 }
             });
         }
-
         function call(){
             $.ajax({
                 url:"{{ path('visit_counter') }}",
@@ -355,7 +322,6 @@
             });
             window.open("tel:+"+{{ menu_data.telephone }});
         }
-
         function whatsapp(){
             $.ajax({
                 url:"{{ path('visit_counter') }}",
@@ -366,15 +332,10 @@
                 },
                 success:function (php_result) {
                     console.log(php_result);
-
-
-
                 }
             });
-
             var uri ='{{ menu_data.greeting }}\n';
             var uriText = encodeURI(uri);
-
             window.open("https://wa.me/"+{{ menu_data.telephone }} +"?text="+uriText);
         }
         function payment() {
@@ -389,7 +350,6 @@
                     console.log(php_result);
                 }
             });
-
             var row_count = $('#cart tr').length;
             var uri ='{{ menu_data.greeting }}\n';
             $('#cart tr').each(function(index, tr) {
@@ -406,9 +366,6 @@
             });
             var uriText = encodeURI(uri);
             // console.log(uri)
-
-
-
             window.location.href = "https://wa.me/"+{{ menu_data.telephone }} +"?text="+uriText;
         }
         function loadButtons(){
@@ -450,9 +407,7 @@
                 return $(this).text() === prodName;
             });
             if(cellVal.text() === ""){
-
-                    cart.prepend('<tr class="active-row" id="'+prodName+'"><td >'+prodName+'</td><td id="quantity">1</td><td><div class="remove_product btn btn-danger btn-sm my-1 mx-1" style="position: initial;">Borrar</div><div class="remove_all btn btn-warning my-1 btn-sm" style="position: initial;">Vaciar</div></td></tr>');
-
+                cart.prepend('<tr class="active-row" id="'+prodName+'"><td >'+prodName+'</td><td id="quantity">1</td><td><div class="remove_product btn btn-danger btn-sm my-1 mx-1" style="position: initial;">Borrar</div><div class="remove_all btn btn-warning my-1 btn-sm" style="position: initial;">Vaciar</div></td></tr>');
             }else{
                 var quantity = parseInt(cellVal.parent().children()[1].innerText);
                 cellVal.parent().children()[1].innerText = quantity + 1;
@@ -492,8 +447,6 @@
                 $('#'+key).css({"height":buttonHeight*scaleMult});
             }
         }
-
-
         $(document).ready(function(data){
             var elementText = $('.dataText').text();
             var jsonObj = jQuery.parseJSON(elementText);
@@ -533,6 +486,3 @@
     </script>
 {% endblock %}
 </html>
-
-
-
