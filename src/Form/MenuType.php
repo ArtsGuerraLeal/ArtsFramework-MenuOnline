@@ -15,6 +15,7 @@ class MenuType extends AbstractType
     {
         $builder
             ->add('telephone')
+            ->add('whatsapp')
             ->add('greeting')
             ->add('name')
             ->add('notes')

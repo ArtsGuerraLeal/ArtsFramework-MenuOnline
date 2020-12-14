@@ -112,6 +112,11 @@ class Menu
      */
     private $promotionVisits;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $whatsapp;
+
 
 
     public function getId(): ?int
@@ -343,6 +348,18 @@ class Menu
     public function setPromotionVisits(?int $promotionVisits): self
     {
         $this->promotionVisits = $promotionVisits;
+
+        return $this;
+    }
+
+    public function getWhatsapp(): ?string
+    {
+        return $this->whatsapp;
+    }
+
+    public function setWhatsapp(?string $whatsapp): self
+    {
+        $this->whatsapp = $whatsapp;
 
         return $this;
     }

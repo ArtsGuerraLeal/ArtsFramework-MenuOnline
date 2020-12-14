@@ -16,8 +16,6 @@
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Alata' rel='stylesheet'>
         <link rel="stylesheet" href="{{ asset('/css/image-zoom.css') }}" />
-
-
     {% endblock %}
 
 </head>
@@ -201,8 +199,12 @@
                                     {% if menu_data.website is not null %}
                                         <button class="btn btn-primary border-dark" onclick="website()">Website</button>
                                     {% endif %}
+                                     {% if menu_data.telephone is not null %}
                                     <button class="btn btn-secondary border-dark " onclick="call()">Llamar</button>
+                                     {% endif %}
+                                     {% if menu_data.whatsapp is not null %}
                                     <button class="btn btn-success border-dark" onclick="whatsapp()">Whatsapp</button>
+                                     {% endif %}
 
                                 </div>
 
@@ -221,6 +223,8 @@
 
                                             </tbody>
                                         </table>
+                                      <p class="dataText" style="display: none" >{{ menu_data.data }}</p>
+
                                     {% endif %}
                                 </div>
 
@@ -233,9 +237,6 @@
                 </div>
 
             </div>
-
-            <p class="dataText" style="display: none" >{{ menu_data.data }}</p>
-
         </div>
         <a class=" mt-3 my-1 btn-sm btn-warning border-dark text-center" style="font-family: 'Alata';font-size: 20px" role="button" onclick="promo()">Publícate Aquí!</a>
 
@@ -336,7 +337,7 @@
             });
             var uri ='{{ menu_data.greeting }}\n';
             var uriText = encodeURI(uri);
-            window.open("https://wa.me/"+{{ menu_data.telephone }} +"?text="+uriText);
+            window.open("https://wa.me/"+{{ menu_data.whatsapp }} +"?text="+uriText);
         }
         function payment() {
             $.ajax({
