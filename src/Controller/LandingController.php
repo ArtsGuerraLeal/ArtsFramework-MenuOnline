@@ -80,6 +80,17 @@ class LandingController extends AbstractController
         ]);
     }
 
+     /**
+     * @Route("/testwebhook", name="menu_payment_success", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function webhook(Request $request): JsonResponse
+    {
+        return new JsonResponse(['Response' => 1]);
+
+    }
+
     /**
      * @Route("/success", name="menu_payment_success", methods={"GET"})
      * @param MenuRepository $menuRepository

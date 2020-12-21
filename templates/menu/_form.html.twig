@@ -44,10 +44,10 @@
                 <div class="row">
                     <div class="col">
                 {{ form_row(form.title, {'label':'Titulo de Promoción'})  }}
-                {{ form_row(form.telephone, {'value':'52','label':'Telefono' }) }}
-                {{ form_row(form.whatsapp, {'label':'Whatsapp (Opcional)'}) }}
-                {{ form_row(form.greeting, {'value':'Hola, quisiera hacer un pedido','label':'Contenido de Mensaje Whatsapp','attr':{'pattern': '[a-zA-Z ]*'} })  }}
-                {{ form_row(form.name, {'label':'URL: https://fastmarkets.net/p/...','attr':{'pattern': "[^' ']+" } })  }}
+                {{ form_row(form.telephone, {'value':'52','label':'Telefono ej. 528112345678' }) }}
+                {{ form_row(form.whatsapp, {'label':'Whatsapp (Opcional) ej. 528112345678'}) }}
+                {{ form_row(form.greeting, {'value':'Hola, quisiera hacer un pedido','label':'Contenido de Mensaje Whatsapp (Opcional)','attr':{'pattern': '[a-zA-Z ]*'} })  }}
+                {{ form_row(form.name, {'label':'URL: https://fastmarkets.net/p/... ej. mipublicidad','attr':{'pattern': "[^' ']+" } })  }}
                 {{ form_row(form.notes, {'value':'Servicio en','label':'Notas (Opcional)','attr':{'pattern': '[a-zA-Z ]*'} })  }}
 
                 {{ form_row(form.info, {'label':'Info (Opcional)'})  }}

@@ -19,6 +19,85 @@ class MenuRepository extends ServiceEntityRepository
         parent::__construct($registry, Menu::class);
     }
 
+    /**
+     * @return Menu[] Returns an array of Equipment objects
+     */
+
+    public function findByCompany($companyId)
+    {
+        return $this->createQueryBuilder('menu')
+            ->andWhere('menu.company = :val')
+            ->setParameter('val', $companyId)
+            ->orderBy('menu.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+     /**
+     * @param $companyId
+     * @param $id
+     * @return Menu
+     * @throws NonUniqueResultException
+     */
+    public function findOneByCompanyID($companyId,$id)
+    {
+        return $this->createQueryBuilder('menu')
+            ->andWhere('menu.company = :company')
+            ->andWhere('menu.id = :id')
+            ->setParameter('company', $companyId)
+            ->setParameter('id', $id)
+            ->orderBy('menu.id', 'ASC')
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    /**
+     * @return int 
+     */
+
+    public function SumByCompanyVisits($companyId)
+    {
+        return intval($this->createQueryBuilder('menu')
+            ->andWhere('menu.company = :val')
+            ->setParameter('val', $companyId)
+            ->select('SUM(menu.visits) as total_visits')
+            ->getQuery()
+            ->getSingleScalarResult())
+            ;
+    }
+
+     /**
+     * @return int 
+     */
+
+    public function SumByCompanyCalls($companyId)
+    {
+        return intval($this->createQueryBuilder('menu')
+            ->andWhere('menu.company = :val')
+            ->setParameter('val', $companyId)
+            ->select('SUM(menu.phoneVisits) as total_calls')
+            ->getQuery()
+            ->getSingleScalarResult())
+            ;
+    }
+
+     /**
+     * @return int 
+     */
+
+    public function SumByCompanyWhatsapp($companyId)
+    {
+        return intval($this->createQueryBuilder('menu')
+            ->andWhere('menu.company = :val')
+            ->setParameter('val', $companyId)
+            ->select('SUM(menu.whatsappVisits) as total_whatsapp')
+            ->getQuery()
+            ->getSingleScalarResult())
+            ;
+    }
+
     // /**
     //  * @return Menu[] Returns an array of Menu objects
     //  */

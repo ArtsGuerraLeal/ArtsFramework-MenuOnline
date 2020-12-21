@@ -25,7 +25,7 @@ class MenuType extends AbstractType
             ->add('website')
             ->add('attachment',FileType::class , [
                 'mapped' => false,
-                'required' => true
+                'required' => false
             ])
             ->add('save',SubmitType::class,[
                 'attr' => [

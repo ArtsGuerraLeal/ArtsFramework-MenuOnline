@@ -38,6 +38,19 @@ class MenuController extends AbstractController
     }
 
     /**
+     * @Route("/", name="menu_index", methods={"GET"})
+     * @param MenuRepository $menuRepository
+     * @return Response
+     */
+    public function index( MenuRepository $menuRepository): Response
+    {
+        $user = $this->security->getUser();
+        return $this->render('menu/index.html.twig', [
+            'menus' => $menuRepository->findByCompany($user->getCompany()),
+        ]);
+    }
+
+    /**
      * @Route("/create", name="menu_create", methods={"GET","POST"})
      * @param Request $request
      * @return Response
@@ -112,13 +125,51 @@ class MenuController extends AbstractController
      * @param $id
      * @return Response
      */
-    public function edit(MenuRepository $menuRepository,$id): Response
+    public function edit(Request $request, MenuRepository $menuRepository,$id): Response
     {
         $menu = $menuRepository->findOneBy(['id'=>$id]);
+        $user = $this->security->getUser();
+        $company = $user->getCompany();
+        $entityManager = $this->getDoctrine()->getManager();
+        $menu = $menuRepository->findOneByCompanyID($user->getCompany(), $id);
 
+        $form = $this->createForm(MenuType::class, $menu);
 
-        return $this->render('menu/edit.html.twig', [
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            /**@var UploadedFile $file */
+            $file = $request->files->get('menu')['attachment'];
+            if($file){
+                $imageID = md5(uniqid());
+
+                $filename = $imageID . '_1' . $file->guessClientExtension();
+
+                $temp_file_location = $file->move(
+                    $this->getParameter('uploads_dir'),
+                    $filename);
+
+                $menu->setImage($imageID);
+                $s3->putObject([
+                    'Bucket' => 'fastmarkets',
+                    'Key'    => $filename,
+                    'SourceFile' => $temp_file_location,
+                    'ACL'    => 'public-read'
+                ]);
+
+                unlink($temp_file_location);
+            }
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('menu_index');
+        }
+
+        return $this->render('menu/edit_data.html.twig', [
             'menu_data' => $menu,
+            'form' => $form->createView(),
+
         ]);
     }
 
@@ -138,7 +189,7 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @Route("/{name}", name="menu_vie_name", methods={"GET"})
+     * @Route("/{name}", name="menu_view_name", methods={"GET"})
      * @param MenuRepository $menuRepository
      * @param $name
      * @return Response

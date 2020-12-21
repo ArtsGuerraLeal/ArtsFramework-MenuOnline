@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\AppointmentRepository;
+use App\Repository\MenuRepository;
 use App\Repository\SaleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,9 +19,9 @@ class HomeController extends AbstractController
 
 
     /**
-     * @var AppointmentRepository
+     * @var MenuRepository
      */
-    private $appointmentRepository;
+    private $menuRepository;
 
     /**
      * @var EntityManagerInterface
@@ -36,9 +36,9 @@ class HomeController extends AbstractController
     private $saleRepository;
 
 
-    public function __construct(SaleRepository $saleRepository, AppointmentRepository $appointmentRepository, EntityManagerInterface $entityManager,Security $security){
+    public function __construct(SaleRepository $saleRepository, MenuRepository $menuRepository, EntityManagerInterface $entityManager,Security $security){
         $this->entityManager = $entityManager;
-        $this->appointmentRepository = $appointmentRepository;
+        $this->menuRepository = $menuRepository;
         $this->saleRepository = $saleRepository;
 
         $this->security = $security;
@@ -47,18 +47,24 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/", name="index", methods={"GET"})
-     * @param AppointmentRepository $appointmentRepository
+     * @param MenuRepository $MenuRepository
      * @return Response
      */
-    public function index(AppointmentRepository $appointmentRepository): Response
+    public function index(MenuRepository $MenuRepository): Response
     {
         $user = $this->security->getUser();
+       
 
         if($user->getRoles())
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
-            'appointments' => $appointmentRepository->findByCompany($user->getCompany()),
+            'menus' => $MenuRepository->findByCompany($user->getCompany()),
+            'visits' => $MenuRepository->SumByCompanyVisits($user->getCompany()),
+            'calls' => $MenuRepository->SumByCompanyCalls($user->getCompany()),
+            'whatsapp' => $MenuRepository->SumByCompanyWhatsapp($user->getCompany())
+
+
         ]);
 
     }
@@ -84,13 +90,13 @@ class HomeController extends AbstractController
      * @param AppointmentRepository $appointmentRepository
      * @return Response
      */
-    public function architect(AppointmentRepository $appointmentRepository): Response
+    public function architect(MenuRepository $MenuRepository): Response
     {
         $user = $this->security->getUser();
 
         return $this->render('base_architect.html.twig', [
             'controller_name' => 'HomeController',
-            'appointments' => $appointmentRepository->findByCompany($user->getCompany()),
+            'menu' => $MenuRepository->findByCompany($user->getCompany()),
         ]);
 
 

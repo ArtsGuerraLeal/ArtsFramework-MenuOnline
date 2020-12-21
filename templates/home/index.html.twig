@@ -83,7 +83,7 @@
                     <div class="widget-subheading"></div>
                 </div>
                 <div class="widget-content-right">
-                    <div class="widget-numbers text-white"><span>0</span></div>
+                    <div class="widget-numbers text-white"><span>{{ visits }}</span></div>
                 </div>
             </div>
         </div>
@@ -92,11 +92,11 @@
         <div class="card mb-3 widget-content bg-arielle-smile">
             <div class="widget-content-wrapper text-white">
                 <div class="widget-content-left">
-                    <div class="widget-heading">Numero de Clicks</div>
+                    <div class="widget-heading">Llamadas Totales</div>
                     <div class="widget-subheading"></div>
                 </div>
                 <div class="widget-content-right">
-                    <div class="widget-numbers text-white"><span>0</span></div>
+                    <div class="widget-numbers text-white"><span>{{ calls }}</span></div>
                 </div>
             </div>
         </div>
@@ -105,46 +105,18 @@
         <div class="card mb-3 widget-content bg-grow-early">
             <div class="widget-content-wrapper text-white">
                 <div class="widget-content-left">
-                    <div class="widget-heading">Numero de Pedidos</div>
+                    <div class="widget-heading">Mensajes por Whatsapp</div>
                 </div>
                 <div class="widget-content-right">
-                    <div class="widget-numbers text-white"><span>0</span></div>
+                    <div class="widget-numbers text-white"><span>{{ whatsapp }}</span></div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="d-xl-none d-lg-block col-md-6 col-xl-4">
-        <div class="card mb-3 widget-content bg-premium-dark">
-            <div class="widget-content-wrapper text-white">
-                <div class="widget-content-left">
-                    <div class="widget-heading">Products Sold</div>
-                    <div class="widget-subheading">Revenue streams</div>
-                </div>
-                <div class="widget-content-right">
-                    <div class="widget-numbers text-warning"><span>$14M</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
+  
 </div>
     <div class="container-fluid">
 
-        <!-- Breadcrumbs-->
-
-        <!-- Icon Cards-->
-
-        <!-- Area Chart Example
-        <div class="card mb-3">
-            <div class="card-header">
-                <i class="fas fa-chart-area"></i>
-                Area Chart Example</div>
-            <div class="card-body">
-                <canvas id="myAreaChart" width="100%" height="30"></canvas>
-            </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-        </div>
--->
-        <!-- DataTables Example -->
         <div class="card mb-3">
             <div class="card-header">
                 <i class="fas fa-table"></i>Cifras de Hoy</div>
@@ -154,14 +126,22 @@
                         <thead>
 
                         <tr>
-                            <th>Nombre</th>
-                            <th>Hora</th>
-                            <th>Terminacion</th>
-                            <th>Acciónes</th>
+                            <th>Publicidad</th>
+                            <th>Visitas</th>
+                            <th>Whatsapp</th>
+                            <th>Llamadas</th>
                         </tr>
                         </thead>
                         <tbody>
+                        {% for menu in menus %}
+                                <tr>
+                                    <td>{{ menu.name }}</td>
+                                    <td>{{ menu.visits }}</td>
+                                    <td>{{ menu.whatsappVisits }}</td>
+                                    <td>{{ menu.phoneVisits }}</td>
 
+                                </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
