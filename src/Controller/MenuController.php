@@ -92,7 +92,7 @@ class MenuController extends AbstractController
             if($file){
                 $imageID = md5(uniqid());
 
-                $filename = $imageID . '_1' . $file->guessClientExtension();
+                $filename = $imageID . '_1.' . $file->guessClientExtension();
 
                 $temp_file_location = $file->move(
                     $this->getParameter('uploads_dir'),
