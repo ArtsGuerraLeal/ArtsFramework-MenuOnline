@@ -150,7 +150,7 @@
                 <div class="card-body"  >
                     <div id="card-area">
                         {% if menu_data.numOfImages <= 1 %}
-                            <img class="prod-img d-block img-fluid rounded mx-auto my-3 border" src="{{ 'https://fastmarkets.s3.us-east-2.amazonaws.com/'~ menu_data.image ~ '_1.png') }}" />
+                            <img class="prod-img d-block img-fluid rounded mx-auto my-3 border" src="{{ 'https://fastmarkets.s3.us-east-2.amazonaws.com/'~ menu_data.image ~ '_1.png' }}" />
                         {% endif %}
                         {% if menu_data.numOfImages > 1 %}
                             <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel" data-interval="20000">
@@ -158,7 +158,7 @@
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
                                         <div class="">
-                                            <img class="prod-img d-block img-fluid mx-auto rounded my-3 border" src="{{ 'https://fastmarkets.s3.us-east-2.amazonaws.com/' ~ menu_data.image ~ '_1.png') }}" />
+                                            <img class="prod-img d-block img-fluid mx-auto rounded my-3 border" src="{{ 'https://fastmarkets.s3.us-east-2.amazonaws.com/' ~ menu_data.image ~ '_1.png' }}" />
                                         </div>
                                     </div>
 
@@ -166,7 +166,7 @@
                                     {% for i in 2..menu_data.numOfImages  %}
                                         <div class="carousel-item">
                                             <div class="">
-                                                <img class="prod-img d-block img-fluid mx-auto rounded my-3 border" src="{{ 'https://fastmarkets.s3.us-east-2.amazonaws.com/' ~ menu_data.image ~ '_'~ i ~'.png') }}" />
+                                                <img class="prod-img d-block img-fluid mx-auto rounded my-3 border" src="{{ 'https://fastmarkets.s3.us-east-2.amazonaws.com/' ~ menu_data.image ~ '_'~ i ~'.png' }}" />
                                             </div>
                                         </div>
                                     {%endfor %}
